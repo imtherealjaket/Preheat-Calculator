@@ -1,4 +1,4 @@
-const CACHE_NAME = "preheat-calculator-v2";
+const CACHE_NAME = "preheat-calculator-v5-victor-green";
 
 const APP_FILES = [
   "./",
@@ -9,7 +9,9 @@ const APP_FILES = [
 
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES))
+    caches
+      .open(CACHE_NAME)
+      .then(cache => cache.addAll(APP_FILES))
   );
 
   self.skipWaiting();
@@ -35,22 +37,20 @@ self.addEventListener("fetch", event => {
   }
 
   event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
+    fetch(event.request)
+      .then(networkResponse => {
+        const responseCopy = networkResponse.clone();
 
-      return fetch(event.request)
-        .then(networkResponse => {
-          const responseCopy = networkResponse.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseCopy);
+        });
 
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseCopy);
-          });
-
-          return networkResponse;
-        })
-        .catch(() => caches.match("./index.html"));
-    })
+        return networkResponse;
+      })
+      .catch(() => {
+        return caches.match(event.request).then(cachedResponse => {
+          return cachedResponse || caches.match("./index.html");
+        });
+      })
   );
 });
