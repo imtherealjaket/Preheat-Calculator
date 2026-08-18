@@ -8,51 +8,53 @@
     content="width=device-width, initial-scale=1, viewport-fit=cover"
   >
 
-  <meta name="theme-color" content="#b91c1c">
+  <meta name="theme-color" content="#00843d">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Preheat">
 
   <title>Preheat Calculator</title>
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon.svg">
 
   <style>
     :root {
       color-scheme: light;
-      --background: #f3f4f6;
-      --card: #ffffff;
-      --primary: #b91c1c;
-      --primary-dark: #7f1d1d;
-      --primary-light: #fee2e2;
-      --text: #111827;
-      --secondary: #6b7280;
-      --border: #d1d5db;
-      --success: #166534;
-      --success-bg: #dcfce7;
-      --suggested: #1d4ed8;
-      --suggested-bg: #dbeafe;
-      --warning: #92400e;
-      --warning-bg: #fef3c7;
-      --danger: #991b1b;
-      --danger-bg: #fee2e2;
-      --shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+      --victor-green: #00843d;
+      --victor-green-dark: #006b35;
+      --victor-green-light: #e7f4ed;
+
+      --black: #111111;
+      --charcoal: #292929;
+      --gray-dark: #5d6065;
+      --gray: #c9cbd0;
+      --gray-light: #eeeeef;
+      --white: #ffffff;
+
+      --warning: #6b4d00;
+      --warning-background: #fff4c2;
+      --danger: #7f1d1d;
+      --danger-background: #fee2e2;
+
+      --shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
     }
 
     * {
       box-sizing: border-box;
     }
 
-    html {
-      background: var(--background);
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--gray-light);
     }
 
     body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      background: var(--background);
+      color: var(--black);
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -70,6 +72,10 @@
       font: inherit;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
     .app-header {
       position: sticky;
       top: 0;
@@ -78,8 +84,16 @@
         calc(12px + env(safe-area-inset-top))
         16px
         12px;
-      color: white;
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: var(--white);
+      background:
+        linear-gradient(
+          115deg,
+          var(--black) 0%,
+          var(--black) 48%,
+          var(--victor-green) 48%,
+          var(--victor-green) 100%
+        );
+      border-bottom: 4px solid var(--victor-green);
       box-shadow: var(--shadow);
     }
 
@@ -87,7 +101,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      max-width: 900px;
+      width: min(100%, 900px);
       margin: 0 auto;
       gap: 12px;
     }
@@ -95,22 +109,30 @@
     .header-title {
       margin: 0;
       font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
     }
 
     .header-subtitle {
       margin: 3px 0 0;
       font-size: 0.78rem;
-      opacity: 0.85;
+      opacity: 0.88;
     }
 
     .reset-button {
       min-height: 42px;
       padding: 8px 14px;
-      color: white;
-      background: rgba(255, 255, 255, 0.16);
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: var(--white);
+      background: var(--victor-green);
+      border: 1px solid rgba(255, 255, 255, 0.75);
       border-radius: 10px;
+      font-weight: 700;
       cursor: pointer;
+    }
+
+    .reset-button:active {
+      background: var(--victor-green-dark);
+      transform: scale(0.98);
     }
 
     main {
@@ -121,15 +143,16 @@
 
     .intro {
       margin: 0 0 16px;
-      color: var(--secondary);
+      color: #4e5054;
       line-height: 1.45;
     }
 
     .card {
       margin-bottom: 16px;
       overflow: hidden;
-      background: var(--card);
-      border: 1px solid #e5e7eb;
+      background: var(--white);
+      border: 1px solid #d2d3d6;
+      border-top: 4px solid var(--black);
       border-radius: 16px;
       box-shadow: var(--shadow);
     }
@@ -137,10 +160,17 @@
     .card-title {
       margin: 0;
       padding: 14px 16px;
-      color: var(--primary-dark);
-      background: #fff7f7;
-      border-bottom: 1px solid #fecaca;
+      color: var(--white);
+      background:
+        linear-gradient(
+          90deg,
+          var(--black) 0%,
+          var(--charcoal) 70%,
+          var(--victor-green) 100%
+        );
       font-size: 1rem;
+      font-weight: 750;
+      letter-spacing: 0.01em;
     }
 
     .card-body {
@@ -164,26 +194,19 @@
       border-bottom: 0;
     }
 
-    .selector-row {
-      padding: 10px 0;
-      border-bottom: 1px solid #e5e7eb;
+    .input-label,
+    .result-label {
+      font-size: 0.92rem;
     }
 
-    .selector-row label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .select-input,
-    .number-input {
+    .number-input,
+    .select-input {
       width: 100%;
       min-height: 42px;
       padding: 8px 10px;
-      color: var(--text);
+      color: var(--black);
       background: #f9fafb;
-      border: 1px solid var(--border);
+      border: 1px solid var(--gray);
       border-radius: 9px;
     }
 
@@ -191,20 +214,36 @@
       text-align: right;
     }
 
-    .select-input:focus,
-    .number-input:focus {
-      outline: 3px solid rgba(185, 28, 28, 0.15);
-      border-color: var(--primary);
-    }
-
-    .input-label,
-    .result-label {
-      font-size: 0.92rem;
+    .number-input:focus,
+    .select-input:focus {
+      outline: 3px solid rgba(0, 132, 61, 0.18);
+      border-color: var(--victor-green);
     }
 
     .unit {
-      color: var(--secondary);
-      font-size: 0.76rem;
+      color: var(--gray-dark);
+      font-size: 0.75rem;
+    }
+
+    .selector-row {
+      padding: 11px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .selector-row label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .property-panel {
+      margin: 12px 0;
+      padding: 4px 12px;
+      background: #f5f5f6;
+      border: 1px solid #e5e7eb;
+      border-left: 5px solid var(--victor-green);
+      border-radius: 10px;
     }
 
     .property-row {
@@ -213,21 +252,13 @@
 
     .property-value {
       text-align: right;
-      font-weight: 600;
+      font-weight: 650;
       font-variant-numeric: tabular-nums;
-    }
-
-    .property-panel {
-      margin: 12px 0;
-      padding: 4px 12px;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
     }
 
     .help-text {
       margin: 10px 0 12px;
-      color: var(--secondary);
+      color: var(--gray-dark);
       font-size: 0.78rem;
       line-height: 1.45;
     }
@@ -244,24 +275,38 @@
     .result-row.emphasized {
       margin: 8px 0;
       padding: 0 10px;
-      color: var(--primary-dark);
-      background: var(--primary-light);
+      color: var(--white);
+      background:
+        linear-gradient(
+          100deg,
+          var(--black) 0%,
+          var(--charcoal) 65%,
+          var(--victor-green) 100%
+        );
       border: 0;
+      border-left: 5px solid var(--victor-green);
       border-radius: 10px;
-      font-weight: 700;
+      font-weight: 750;
     }
 
-    .error-box {
+    .error-box,
+    .empty-message {
       margin: 10px 0;
       padding: 12px;
-      color: var(--danger);
-      background: var(--danger-bg);
       border-radius: 10px;
       line-height: 1.4;
     }
 
-    .hidden {
-      display: none !important;
+    .error-box {
+      color: var(--danger);
+      background: var(--danger-background);
+      border-left: 5px solid var(--danger);
+    }
+
+    .empty-message {
+      color: var(--gray-dark);
+      background: #f5f5f6;
+      border-left: 5px solid var(--victor-green);
     }
 
     .nozzle-list {
@@ -272,19 +317,23 @@
 
     .nozzle-card {
       padding: 14px;
-      background: white;
-      border: 1px solid #e5e7eb;
+      background: var(--white);
+      border: 1px solid #cfd0d3;
+      border-left: 5px solid #343434;
       border-radius: 13px;
     }
 
     .nozzle-card.recommended {
-      border: 2px solid #22c55e;
-      background: #f0fdf4;
+      background: #f2fbf6;
+      border: 2px solid var(--victor-green);
+      border-left: 8px solid var(--victor-green);
+      box-shadow: 0 4px 14px rgba(0, 132, 61, 0.18);
     }
 
     .nozzle-card.suggested {
-      border: 2px solid #60a5fa;
-      background: #eff6ff;
+      background: #f2f2f3;
+      border: 2px solid #3a3a3a;
+      border-left: 8px solid #3a3a3a;
     }
 
     .nozzle-heading {
@@ -301,26 +350,25 @@
 
     .fuel-type {
       margin: 4px 0 0;
-      color: var(--secondary);
+      color: var(--gray-dark);
       font-size: 0.78rem;
     }
 
     .badge {
       flex-shrink: 0;
       padding: 4px 8px;
+      color: var(--white);
       border-radius: 999px;
       font-size: 0.7rem;
-      font-weight: 700;
+      font-weight: 750;
     }
 
     .badge.recommended {
-      color: var(--success);
-      background: var(--success-bg);
+      background: var(--victor-green);
     }
 
     .badge.suggested {
-      color: var(--suggested);
-      background: var(--suggested-bg);
+      background: var(--charcoal);
     }
 
     .nozzle-data {
@@ -332,7 +380,7 @@
 
     .data-label {
       display: block;
-      color: var(--secondary);
+      color: var(--gray-dark);
       font-size: 0.67rem;
     }
 
@@ -340,7 +388,7 @@
       display: block;
       margin-top: 2px;
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 650;
     }
 
     .time-row {
@@ -355,15 +403,15 @@
     }
 
     .time-value {
-      color: var(--primary);
+      color: var(--victor-green-dark);
       font-size: 1rem;
-      font-weight: 750;
+      font-weight: 800;
       font-variant-numeric: tabular-nums;
     }
 
     .note {
       margin: 9px 0 0;
-      color: var(--secondary);
+      color: var(--gray-dark);
       font-size: 0.74rem;
     }
 
@@ -371,14 +419,15 @@
       margin: 12px 0;
       padding: 12px;
       color: var(--warning);
-      background: var(--warning-bg);
+      background: var(--warning-background);
+      border-left: 5px solid var(--victor-green);
       border-radius: 10px;
       font-size: 0.82rem;
       line-height: 1.45;
     }
 
     .disclaimer {
-      color: var(--secondary);
+      color: var(--gray-dark);
       font-size: 0.78rem;
       line-height: 1.5;
     }
@@ -433,7 +482,7 @@
           <span class="input-label">Pipe base diameter</span>
           <input
             id="pipeDiameter"
-            class="number-input user-input"
+            class="number-input"
             type="number"
             inputmode="decimal"
             min="0"
@@ -447,7 +496,7 @@
           <span class="input-label">Inside overhang</span>
           <input
             id="insideOverhang"
-            class="number-input user-input"
+            class="number-input"
             type="number"
             inputmode="decimal"
             min="0"
@@ -461,7 +510,7 @@
           <span class="input-label">Outside extension</span>
           <input
             id="outsideExtension"
-            class="number-input user-input"
+            class="number-input"
             type="number"
             inputmode="decimal"
             min="0"
@@ -475,7 +524,7 @@
           <span class="input-label">Thickness</span>
           <input
             id="thickness"
-            class="number-input user-input"
+            class="number-input"
             type="number"
             inputmode="decimal"
             min="0"
@@ -493,6 +542,7 @@
       <div class="card-body">
         <div class="selector-row">
           <label for="materialCategory">Material category</label>
+
           <select id="materialCategory" class="select-input">
             <option value="">Select a category</option>
           </select>
@@ -500,6 +550,7 @@
 
         <div class="selector-row">
           <label for="materialGrade">Specific alloy or grade</label>
+
           <select id="materialGrade" class="select-input" disabled>
             <option value="">Select a category first</option>
           </select>
@@ -548,10 +599,9 @@
         </div>
 
         <p class="help-text">
-          Material properties are nominal reference values near room
-          temperature. Actual properties vary with temperature, specification,
-          chemistry, product form, and heat treatment. Use approved engineering
-          data when required.
+          Values are nominal reference properties near room temperature.
+          Properties may vary with temperature, chemistry, product form, and
+          heat treatment. Use approved engineering data when required.
         </p>
       </div>
     </section>
@@ -564,7 +614,7 @@
           <span class="input-label">Ambient temperature</span>
           <input
             id="ambientTemperature"
-            class="number-input user-input"
+            class="number-input"
             type="number"
             inputmode="decimal"
             step="any"
@@ -577,7 +627,7 @@
           <span class="input-label">Target temperature</span>
           <input
             id="targetTemperature"
-            class="number-input user-input"
+            class="number-input"
             type="number"
             inputmode="decimal"
             step="any"
@@ -590,7 +640,7 @@
           <span class="input-label">Thermal efficiency</span>
           <input
             id="thermalEfficiency"
-            class="number-input user-input"
+            class="number-input"
             type="number"
             inputmode="decimal"
             min="0.0001"
@@ -668,21 +718,20 @@
       <div class="card-body disclaimer">
         <div class="notice">
           This calculator provides planning estimates only. Actual heating
-          performance depends on the setup, environment, torch condition, fuel
-          quality, operator technique, and heat distribution.
+          performance depends on equipment, environment, torch condition, fuel
+          quality, operator technique, heat distribution, and heat losses.
         </div>
 
         <p>
-          The displayed recommendation is based on the original spreadsheet
-          designation and calculated heating time. It does not verify equipment
-          compatibility, gas-supply capacity, procedure requirements, or safe
-          operating limits.
+          The displayed recommendation comes from the original calculator. It
+          does not verify fuel compatibility, equipment compatibility,
+          gas-supply capacity, safe operating limits, or procedure requirements.
         </p>
 
         <p>
-          Verify material properties, nozzle ratings, fuel compatibility,
-          gas-supply capacity, manufacturer instructions, welding procedures,
-          and site safety requirements before use.
+          Verify material properties, nozzle ratings, gas-supply capacity,
+          manufacturer instructions, welding procedures, and site safety
+          requirements before use.
         </p>
       </div>
     </section>
@@ -849,6 +898,24 @@
 
     const nozzles = [
       {
+        name: "Type 55 - Size 20",
+        fuelType: "High Capacity - Propylene",
+        fuelGasCFH: 140,
+        oxygenCFH: 600,
+        btuPerHour: 600000,
+        priority: 2,
+        badge: "Recommended"
+      },
+      {
+        name: "Type 55 - Size 15",
+        fuelType: "Propylene",
+        fuelGasCFH: 90,
+        oxygenCFH: 380,
+        btuPerHour: 380000,
+        priority: 1,
+        badge: "Suggested"
+      },
+      {
         name: "MFN 4",
         fuelType: "Propylene/Propane",
         fuelGasCFH: 20,
@@ -890,24 +957,6 @@
         fuelGasCFH: 50,
         oxygenCFH: 210,
         btuPerHour: 210000
-      },
-      {
-        name: "Type 55 - Size 15",
-        fuelType: "Propylene",
-        fuelGasCFH: 90,
-        oxygenCFH: 380,
-        btuPerHour: 380000,
-        ranking: 1,
-        badge: "Suggested"
-      },
-      {
-        name: "Type 55 - Size 20",
-        fuelType: "High Capacity - Propylene",
-        fuelGasCFH: 140,
-        oxygenCFH: 600,
-        btuPerHour: 600000,
-        ranking: 2,
-        badge: "Recommended"
       },
       {
         name: "MFA 4",
@@ -955,7 +1004,7 @@
       }
     ];
 
-    const userInputIds = [
+    const inputIds = [
       "pipeDiameter",
       "insideOverhang",
       "outsideExtension",
@@ -965,10 +1014,39 @@
       "thermalEfficiency"
     ];
 
-    const categorySelect = document.getElementById("materialCategory");
-    const gradeSelect = document.getElementById("materialGrade");
-    const customFields = document.getElementById("customMaterialFields");
-    const materialProperties = document.getElementById("materialProperties");
+    const storageKey = "preheat-calculator-v5-inputs";
+
+    const categorySelect =
+      document.getElementById("materialCategory");
+
+    const gradeSelect =
+      document.getElementById("materialGrade");
+
+    const customFields =
+      document.getElementById("customMaterialFields");
+
+    const materialProperties =
+      document.getElementById("materialProperties");
+
+    function getNumber(id) {
+      const value =
+        Number.parseFloat(document.getElementById(id).value);
+
+      return Number.isFinite(value) ? value : NaN;
+    }
+
+    function formatNumber(value, decimals = 2) {
+      return value.toLocaleString("en-US", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function formatWholeNumber(value) {
+      return value.toLocaleString("en-US", {
+        maximumFractionDigits: 0
+      });
+    }
 
     function initializeMaterialCategories() {
       Object.keys(materialDatabase).forEach(category => {
@@ -988,7 +1066,9 @@
         gradeSelect.disabled = true;
         gradeSelect.innerHTML =
           '<option value="">Select a category first</option>';
+
         customFields.classList.add("hidden");
+        materialProperties.classList.add("hidden");
         return;
       }
 
@@ -1021,7 +1101,8 @@
         return null;
       }
 
-      const material = materialDatabase[category][Number(gradeIndex)];
+      const material =
+        materialDatabase[category][Number(gradeIndex)];
 
       if (!material) {
         return null;
@@ -1040,24 +1121,6 @@
         density: material[1],
         specificHeat: material[2]
       };
-    }
-
-    function getNumber(id) {
-      const value = Number.parseFloat(document.getElementById(id).value);
-      return Number.isFinite(value) ? value : NaN;
-    }
-
-    function formatNumber(value, decimals = 2) {
-      return value.toLocaleString("en-US", {
-        minimumFractionDigits: decimals,
-        maximumFractionDigits: decimals
-      });
-    }
-
-    function formatWholeNumber(value) {
-      return value.toLocaleString("en-US", {
-        maximumFractionDigits: 0
-      });
     }
 
     function updateMaterialDisplay(material) {
@@ -1079,16 +1142,20 @@
       materialProperties.classList.remove("hidden");
     }
 
-    function showInvalidState(message) {
+    function showIncompleteState(message, isError = false) {
       const errorBox = document.getElementById("errorBox");
 
       errorBox.textContent = message;
-      errorBox.classList.remove("hidden");
+      errorBox.className = isError
+        ? "error-box"
+        : "empty-message";
 
       document.getElementById("results").classList.add("hidden");
 
       document.getElementById("nozzleList").innerHTML =
-        '<div class="error-box">Complete all required inputs to calculate nozzle heating times.</div>';
+        '<div class="empty-message">' +
+        'Complete all required inputs to calculate nozzle heating times.' +
+        '</div>';
     }
 
     function calculate(save = true) {
@@ -1108,7 +1175,9 @@
       }
 
       if (!material) {
-        showInvalidState("Select a material category and a specific alloy or grade.");
+        showIncompleteState(
+          "Select a material category and a specific alloy or grade."
+        );
         return;
       }
 
@@ -1118,11 +1187,14 @@
         !Number.isFinite(material.specificHeat) ||
         material.specificHeat <= 0
       ) {
-        showInvalidState("Enter valid custom material properties.");
+        showIncompleteState(
+          "Enter valid custom material properties.",
+          true
+        );
         return;
       }
 
-      const values = [
+      const requiredValues = [
         pipeDiameter,
         insideOverhang,
         outsideExtension,
@@ -1132,8 +1204,10 @@
         thermalEfficiency
       ];
 
-      if (values.some(value => !Number.isFinite(value))) {
-        showInvalidState("Complete all user input fields with valid numbers.");
+      if (requiredValues.some(value => !Number.isFinite(value))) {
+        showIncompleteState(
+          "Complete all user input fields with valid numbers."
+        );
         return;
       }
 
@@ -1143,47 +1217,77 @@
         outsideExtension < 0 ||
         thickness <= 0
       ) {
-        showInvalidState("Dimensions must be valid and greater than zero where required.");
+        showIncompleteState(
+          "Dimensions must be valid and greater than zero where required.",
+          true
+        );
         return;
       }
 
       if (thermalEfficiency <= 0 || thermalEfficiency > 1) {
-        showInvalidState("Thermal efficiency must be greater than 0 and no more than 1.");
+        showIncompleteState(
+          "Thermal efficiency must be greater than 0 and no more than 1.",
+          true
+        );
         return;
       }
 
       if (targetTemperature < ambientTemperature) {
-        showInvalidState("Target temperature cannot be lower than ambient temperature.");
+        showIncompleteState(
+          "Target temperature cannot be lower than ambient temperature.",
+          true
+        );
         return;
       }
 
-      const flangeID = pipeDiameter - (2 * insideOverhang);
-      const flangeOD = pipeDiameter + (2 * outsideExtension);
+      const flangeID =
+        pipeDiameter - (2 * insideOverhang);
+
+      const flangeOD =
+        pipeDiameter + (2 * outsideExtension);
 
       if (flangeID < 0) {
-        showInvalidState("Inside overhang produces an invalid flange inner diameter.");
+        showIncompleteState(
+          "Inside overhang produces an invalid flange inner diameter.",
+          true
+        );
         return;
       }
 
       if (flangeOD <= flangeID) {
-        showInvalidState("Flange outer diameter must be greater than inner diameter.");
+        showIncompleteState(
+          "Flange outer diameter must be greater than inner diameter.",
+          true
+        );
         return;
       }
 
-      document.getElementById("errorBox").classList.add("hidden");
+      const errorBox = document.getElementById("errorBox");
+      errorBox.className = "hidden";
+
       document.getElementById("results").classList.remove("hidden");
 
-      const faceWidth = (flangeOD - flangeID) / 2;
+      const faceWidth =
+        (flangeOD - flangeID) / 2;
 
       const volume =
         (Math.PI / 4) *
         ((flangeOD ** 2) - (flangeID ** 2)) *
         thickness;
 
-      const weight = volume * material.density;
-      const temperatureRise = targetTemperature - ambientTemperature;
-      const netBTU = weight * material.specificHeat * temperatureRise;
-      const grossBTU = netBTU / thermalEfficiency;
+      const weight =
+        volume * material.density;
+
+      const temperatureRise =
+        targetTemperature - ambientTemperature;
+
+      const netBTU =
+        weight *
+        material.specificHeat *
+        temperatureRise;
+
+      const grossBTU =
+        netBTU / thermalEfficiency;
 
       document.getElementById("flangeID").textContent =
         `${formatNumber(flangeID)} in`;
@@ -1214,10 +1318,11 @@
 
     function renderNozzles(grossBTU) {
       const sortedNozzles = [...nozzles].sort((a, b) => {
-        const rankingDifference = (b.ranking || 0) - (a.ranking || 0);
+        const priorityDifference =
+          (b.priority || 0) - (a.priority || 0);
 
-        if (rankingDifference !== 0) {
-          return rankingDifference;
+        if (priorityDifference !== 0) {
+          return priorityDifference;
         }
 
         return a.btuPerHour - b.btuPerHour;
@@ -1225,7 +1330,8 @@
 
       document.getElementById("nozzleList").innerHTML =
         sortedNozzles.map(nozzle => {
-          const minutes = (grossBTU / nozzle.btuPerHour) * 60;
+          const minutes =
+            (grossBTU / nozzle.btuPerHour) * 60;
 
           let cardClass = "";
           let badge = "";
@@ -1291,59 +1397,70 @@
     }
 
     function saveInputs() {
-      const savedValues = {
+      const values = {
         materialCategory: categorySelect.value,
         materialGrade: gradeSelect.value,
-        customDensity: document.getElementById("customDensity").value,
+        customDensity:
+          document.getElementById("customDensity").value,
         customSpecificHeat:
           document.getElementById("customSpecificHeat").value
       };
 
-      userInputIds.forEach(id => {
-        savedValues[id] = document.getElementById(id).value;
+      inputIds.forEach(id => {
+        values[id] = document.getElementById(id).value;
       });
 
       localStorage.setItem(
-        "preheat-calculator-v2-inputs",
-        JSON.stringify(savedValues)
+        storageKey,
+        JSON.stringify(values)
       );
     }
 
     function loadInputs() {
       try {
-        const savedValues = JSON.parse(
-          localStorage.getItem("preheat-calculator-v2-inputs")
+        const values = JSON.parse(
+          localStorage.getItem(storageKey)
         );
 
-        if (!savedValues) {
-          categorySelect.value = "Carbon and Structural Steel";
+        if (!values) {
+          categorySelect.value =
+            "Carbon and Structural Steel";
+
           populateGrades("0");
           return;
         }
 
-        userInputIds.forEach(id => {
-          if (savedValues[id] !== undefined) {
-            document.getElementById(id).value = savedValues[id];
+        inputIds.forEach(id => {
+          if (values[id] !== undefined) {
+            document.getElementById(id).value =
+              values[id];
           }
         });
 
-        categorySelect.value = savedValues.materialCategory || "";
-        populateGrades(savedValues.materialGrade || "");
+        categorySelect.value =
+          values.materialCategory || "";
+
+        populateGrades(
+          values.materialGrade || ""
+        );
 
         document.getElementById("customDensity").value =
-          savedValues.customDensity || "";
+          values.customDensity || "";
 
         document.getElementById("customSpecificHeat").value =
-          savedValues.customSpecificHeat || "";
-      } catch {
-        localStorage.removeItem("preheat-calculator-v2-inputs");
-        categorySelect.value = "Carbon and Structural Steel";
+          values.customSpecificHeat || "";
+      } catch (error) {
+        localStorage.removeItem(storageKey);
+
+        categorySelect.value =
+          "Carbon and Structural Steel";
+
         populateGrades("0");
       }
     }
 
     function resetInputs() {
-      userInputIds.forEach(id => {
+      inputIds.forEach(id => {
         document.getElementById(id).value = "";
       });
 
@@ -1354,7 +1471,8 @@
       document.getElementById("customSpecificHeat").value = "";
 
       materialProperties.classList.add("hidden");
-      localStorage.removeItem("preheat-calculator-v2-inputs");
+
+      localStorage.removeItem(storageKey);
 
       calculate(false);
     }
@@ -1362,9 +1480,14 @@
     initializeMaterialCategories();
     loadInputs();
 
-    userInputIds.forEach(id => {
-      document.getElementById(id).addEventListener("input", calculate);
-      document.getElementById(id).addEventListener("change", calculate);
+    inputIds.forEach(id => {
+      document
+        .getElementById(id)
+        .addEventListener("input", calculate);
+
+      document
+        .getElementById(id)
+        .addEventListener("change", calculate);
     });
 
     categorySelect.addEventListener("change", () => {
@@ -1391,7 +1514,10 @@
         navigator.serviceWorker
           .register("./service-worker.js")
           .catch(error => {
-            console.error("Service worker registration failed:", error);
+            console.error(
+              "Service worker registration failed:",
+              error
+            );
           });
       });
     }
