@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#b91c1c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Preheat">
+
+  <title>Preheat Calculator</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+
+  <style>
+    :root {
+      color-scheme: light;
+      --background: #f3f4f6;
+      --card: #ffffff;
+      --primary: #b91c1c;
+      --primary-dark: #7f1d1d;
+      --primary-light: #fee2e2;
+      --text: #111827;
+      --secondary: #6b7280;
+      --border: #d1d5db;
+      --success: #166534;
+      --success-bg: #dcfce7;
+      --warning: #92400e;
+      --warning-bg: #fef3c7;
+      --danger: #991b1b;
+      --danger-bg: #fee2e2;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--background);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background: var(--background);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding:
+        calc(12px + env(safe-area-inset-top))
+        16px
+        12px;
+      color: white;
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      box-shadow: var(--shadow);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 850px;
+      margin: 0 auto;
+      gap: 12px;
+    }
+
+    .header-title {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .header-subtitle {
+      margin: 3px 0 0;
+      font-size: 0.78rem;
+      opacity: 0.85;
+    }
+
+    .reset-button {
+      min-height: 42px;
+      padding: 8px 14px;
+      color: white;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .reset-button:active {
+      transform: scale(0.98);
+    }
+
+    main {
+      width: min(100%, 850px);
+      margin: 0 auto;
+      padding: 16px 14px calc(36px + env(safe-area-inset-bottom));
+    }
+
+    .intro {
+      margin: 0 0 16px;
+      color: var(--secondary);
+      line-height: 1.45;
+    }
+
+    .card {
+      margin-bottom: 16px;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      margin: 0;
+      padding: 14px 16px;
+      color: var(--primary-dark);
+      background: #fff7f7;
+      border-bottom: 1px solid #fecaca;
+      font-size: 1rem;
+    }
+
+    .card-body {
+      padding: 8px 16px;
+    }
+
+    .input-row,
+    .result-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 115px 72px;
+      align-items: center;
+      min-height: 54px;
+      gap: 8px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .input-row:last-child,
+    .result-row:last-child {
+      border-bottom: 0;
+    }
+
+    .input-label,
+    .result-label {
+      font-size: 0.92rem;
+    }
+
+    .number-input {
+      width: 100%;
+      min-height: 40px;
+      padding: 8px 10px;
+      text-align: right;
+      color: var(--text);
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+
+    .number-input:focus {
+      outline: 3px solid rgba(185, 28, 28, 0.15);
+      border-color: var(--primary);
+    }
+
+    .unit {
+      color: var(--secondary);
+      font-size: 0.78rem;
+    }
+
+    .help-text {
+      margin: 8px 0 12px;
+      color: var(--secondary);
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    .result-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .result-value {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .result-row.emphasized {
+      margin: 8px 0;
+      padding: 0 10px;
+      color: var(--primary-dark);
+      background: var(--primary-light);
+      border: 0;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .error-box {
+      margin: 10px 0;
+      padding: 12px;
+      color: var(--danger);
+      background: var(--danger-bg);
+      border-radius: 10px;
+      line-height: 1.4;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .nozzle-list {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .nozzle-card {
+      padding: 14px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 13px;
+    }
+
+    .nozzle-card.suggested {
+      border: 2px solid #22c55e;
+      background: #f0fdf4;
+    }
+
+    .nozzle-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .nozzle-name {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .fuel-type {
+      margin: 4px 0 0;
+      color: var(--secondary);
+      font-size: 0.78rem;
+    }
+
+    .badge {
+      flex-shrink: 0;
+      padding: 4px 8px;
+      color: var(--success);
+      background: var(--success-bg);
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .nozzle-data {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .data-label {
+      display: block;
+      color: var(--secondary);
+      font-size: 0.67rem;
+    }
+
+    .data-value {
+      display: block;
+      margin-top: 2px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .time-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 13px;
+      padding-top: 11px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 0.87rem;
+    }
+
+    .time-value {
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .note {
+      margin: 9px 0 0;
+      color: var(--secondary);
+      font-size: 0.74rem;
+    }
+
+    .notice {
+      margin: 12px 0;
+      padding: 12px;
+      color: var(--warning);
+      background: var(--warning-bg);
+      border-radius: 10px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .install-panel {
+      padding: 14px 16px;
+      color: #1e3a8a;
+      background: #eff6ff;
+      border-bottom: 1px solid #bfdbfe;
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .disclaimer {
+      color: var(--secondary);
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      .input-row {
+        grid-template-columns: minmax(0, 1fr) 96px 60px;
+      }
+
+      .input-label {
+        font-size: 0.84rem;
+      }
+
+      .header-subtitle {
+        display: none;
+      }
+    }
+
+    @media (min-width: 700px) {
+      .nozzle-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="app-header">
+    <div class="header-content">
+      <div>
+        <h1 class="header-title">Preheat Calculator</h1>
+        <p class="header-subtitle">Oxy-fuel preheat time and BTU estimator</p>
+      </div>
+
+      <button id="resetButton" class="reset-button" type="button">
+        Reset
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <p class="intro">
+      Estimate the energy and time required to preheat a carbon-steel flange
+      using an oxy-fuel heating nozzle.
+    </p>
+
+    <section id="installPanel" class="card hidden">
+      <div class="install-panel">
+        <strong>Install on iPhone:</strong>
+        Open this page in Safari, tap the Share button, and select
+        <strong>Add to Home Screen</strong>.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">Flange Dimensions</h2>
+
+      <div class="card-body">
+        <label class="input-row">
+          <span class="input-label">Pipe base diameter</span>
+          <input
+            id="pipeDiameter"
+            class="number-input"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="any"
+            value="24"
+          >
+          <span class="unit">in</span>
+        </label>
+
+        <label class="input-row">
+          <span class="input-label">Inside overhang</span>
+          <input
+            id="insideOverhang"
+            class="number-input"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="any"
+            value="2"
+          >
+          <span class="unit">in</span>
+        </label>
+
+        <label class="input-row">
+          <span class="input-label">Outside extension</span>
+          <input
+            id="outsideExtension"
+            class="number-input"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="any"
+            value="6"
+          >
+          <span class="unit">in</span>
+        </label>
+
+        <label class="input-row">
+          <span class="input-label">Thickness</span>
+          <input
+            id="thickness"
+            class="number-input"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="any"
+            value="2.25"
+          >
+          <span class="unit">in</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">Material Properties</h2>
+
+      <div class="card-body">
+        <label class="input-row">
+          <span class="input-label">Steel density</span>
+          <input
+            id="steelDensity"
+            class="number-input"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="any"
+            value="0.2833"
+          >
+          <span class="unit">lb/in³</span>
+        </label>
+
+        <label class="input-row">
+          <span class="input-label">Specific heat</span>
+          <input
+            id="specificHeat"
+            class="number-input"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="any"
+            value="0.12"
+          >
+          <span class="unit">BTU/lb°F</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">Temperature and Efficiency</h2>
+
+      <div class="card-body">
+        <label class="input-row">
+          <span class="input-label">Ambient temperature</span>
+          <input
+            id="ambientTemperature"
+            class="number-input"
+            type="number"
+            inputmode="decimal"
+            step="any"
+            value="70"
+          >
+          <span class="unit">°F</span>
+        </label>
+
+        <label class="input-row">
+          <span class="input-label">Target temperature</span>
+          <input
+            id="targetTemperature"
+            class="number-input"
+            type="number"
+            inputmode="decimal"
+            step="any"
+            value="300"
+          >
+          <span class="unit">°F</span>
+        </label>
+
+        <label class="input-row">
+          <span class="input-label">Thermal efficiency</span>
+          <input
+            id="thermalEfficiency"
+            class="number-input"
+            type="number"
+            inputmode="decimal"
+            min="0.0001"
+            max="1"
+            step="any"
+            value="0.12"
+          >
+          <span class="unit">decimal</span>
+        </label>
+
+        <p class="help-text">
+          Enter efficiency as a decimal. For example, enter 0.12 for 12%.
+        </p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">Calculated Results</h2>
+
+      <div class="card-body">
+        <div id="errorBox" class="error-box hidden"></div>
+
+        <div id="results">
+          <div class="result-row">
+            <span class="result-label">Flange inner diameter</span>
+            <span id="flangeID" class="result-value"></span>
+          </div>
+
+          <div class="result-row">
+            <span class="result-label">Flange outer diameter</span>
+            <span id="flangeOD" class="result-value"></span>
+          </div>
+
+          <div class="result-row">
+            <span class="result-label">Radial face width</span>
+            <span id="faceWidth" class="result-value"></span>
+          </div>
+
+          <div class="result-row">
+            <span class="result-label">Flange volume</span>
+            <span id="volume" class="result-value"></span>
+          </div>
+
+          <div class="result-row">
+            <span class="result-label">Flange weight</span>
+            <span id="weight" class="result-value"></span>
+          </div>
+
+          <div class="result-row">
+            <span class="result-label">Temperature rise</span>
+            <span id="temperatureRise" class="result-value"></span>
+          </div>
+
+          <div class="result-row">
+            <span class="result-label">Net heat required</span>
+            <span id="netBTU" class="result-value"></span>
+          </div>
+
+          <div class="result-row emphasized">
+            <span class="result-label">Gross torch input</span>
+            <span id="grossBTU" class="result-value"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">Heating Nozzle Comparison</h2>
+      <div id="nozzleList" class="nozzle-list"></div>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">Important</h2>
+
+      <div class="card-body disclaimer">
+        <div class="notice">
+          This calculator provides planning estimates only. Actual heating
+          performance depends on the setup, environment, torch condition, fuel
+          quality, operator technique, and heat distribution.
+        </div>
+
+        <p>
+          Verify nozzle ratings, gas-supply capacity, equipment compatibility,
+          manufacturer instructions, welding procedures, and site safety
+          requirements before use.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const defaults = {
+      pipeDiameter: 24,
+      insideOverhang: 2,
+      outsideExtension: 6,
+      thickness: 2.25,
+      steelDensity: 0.2833,
+      specificHeat: 0.12,
+      ambientTemperature: 70,
+      targetTemperature: 300,
+      thermalEfficiency: 0.12
+    };
+
+    const nozzles = [
+      {
+        name: "MFN 4",
+        fuelType: "Propylene/Propane",
+        fuelGasCFH: 20,
+        oxygenCFH: 80,
+        btuPerHour: 75000
+      },
+      {
+        name: "MFN 6",
+        fuelType: "Propylene",
+        fuelGasCFH: 40,
+        oxygenCFH: 160,
+        btuPerHour: 150000,
+        note: "Current on site"
+      },
+      {
+        name: "MFN 8",
+        fuelType: "Propylene/Propane",
+        fuelGasCFH: 60,
+        oxygenCFH: 260,
+        btuPerHour: 250000
+      },
+      {
+        name: "MFN 10",
+        fuelType: "Propylene/Propane",
+        fuelGasCFH: 100,
+        oxygenCFH: 420,
+        btuPerHour: 420000
+      },
+      {
+        name: "MFN 12",
+        fuelType: "Propylene/Propane",
+        fuelGasCFH: 140,
+        oxygenCFH: 600,
+        btuPerHour: 600000
+      },
+      {
+        name: "Type 55 - Size 10",
+        fuelType: "Propylene/Propane",
+        fuelGasCFH: 50,
+        oxygenCFH: 210,
+        btuPerHour: 210000
+      },
+      {
+        name: "Type 55 - Size 15",
+        fuelType: "Propylene",
+        fuelGasCFH: 90,
+        oxygenCFH: 380,
+        btuPerHour: 380000,
+        note: "Suggested",
+        suggested: true
+      },
+      {
+        name: "Type 55 - Size 20",
+        fuelType: "High Capacity - Propylene",
+        fuelGasCFH: 140,
+        oxygenCFH: 600,
+        btuPerHour: 600000,
+        note: "Suggested",
+        suggested: true
+      },
+      {
+        name: "MFA 4",
+        fuelType: "Acetylene",
+        fuelGasCFH: 20,
+        oxygenCFH: 22,
+        btuPerHour: 45000
+      },
+      {
+        name: "MFA 6",
+        fuelType: "Acetylene",
+        fuelGasCFH: 40,
+        oxygenCFH: 44,
+        btuPerHour: 90000
+      },
+      {
+        name: "MFA 8",
+        fuelType: "Acetylene",
+        fuelGasCFH: 80,
+        oxygenCFH: 88,
+        btuPerHour: 175000
+      },
+      {
+        name: "MFA 10",
+        fuelType: "Acetylene",
+        fuelGasCFH: 100,
+        oxygenCFH: 110,
+        btuPerHour: 220000
+      },
+      {
+        name: "MFA 12*",
+        fuelType: "Acetylene",
+        fuelGasCFH: 150,
+        oxygenCFH: 165,
+        btuPerHour: 330000,
+        note: "Requires HD310C"
+      },
+      {
+        name: "MFA 15*",
+        fuelType: "Acetylene High Capacity",
+        fuelGasCFH: 220,
+        oxygenCFH: 244,
+        btuPerHour: 480000,
+        note: "Requires HD310C"
+      }
+    ];
+
+    const inputIds = Object.keys(defaults);
+
+    function getNumber(id) {
+      const value = Number.parseFloat(document.getElementById(id).value);
+      return Number.isFinite(value) ? value : NaN;
+    }
+
+    function formatNumber(value, decimals = 2) {
+      return value.toLocaleString("en-US", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function formatWholeNumber(value) {
+      return value.toLocaleString("en-US", {
+        maximumFractionDigits: 0
+      });
+    }
+
+    function calculate() {
+      const pipeDiameter = getNumber("pipeDiameter");
+      const insideOverhang = getNumber("insideOverhang");
+      const outsideExtension = getNumber("outsideExtension");
+      const thickness = getNumber("thickness");
+      const steelDensity = getNumber("steelDensity");
+      const specificHeat = getNumber("specificHeat");
+      const ambientTemperature = getNumber("ambientTemperature");
+      const targetTemperature = getNumber("targetTemperature");
+      const thermalEfficiency = getNumber("thermalEfficiency");
+
+      const values = [
+        pipeDiameter,
+        insideOverhang,
+        outsideExtension,
+        thickness,
+        steelDensity,
+        specificHeat,
+        ambientTemperature,
+        targetTemperature,
+        thermalEfficiency
+      ];
+
+      let error = "";
+
+      if (values.some(value => !Number.isFinite(value))) {
+        error = "Enter a valid number in every field.";
+      } else if (
+        pipeDiameter <= 0 ||
+        insideOverhang < 0 ||
+        outsideExtension < 0 ||
+        thickness <= 0 ||
+        steelDensity <= 0 ||
+        specificHeat <= 0
+      ) {
+        error = "Dimensions and material values must be greater than zero.";
+      } else if (thermalEfficiency <= 0 || thermalEfficiency > 1) {
+        error = "Thermal efficiency must be greater than 0 and no more than 1.";
+      } else if (targetTemperature < ambientTemperature) {
+        error = "Target temperature cannot be lower than ambient temperature.";
+      }
+
+      const flangeID = pipeDiameter - (2 * insideOverhang);
+      const flangeOD = pipeDiameter + (2 * outsideExtension);
+
+      if (!error && flangeID < 0) {
+        error = "Inside overhang produces an invalid flange inner diameter.";
+      }
+
+      if (!error && flangeOD <= flangeID) {
+        error = "Flange outer diameter must be greater than inner diameter.";
+      }
+
+      const errorBox = document.getElementById("errorBox");
+      const results = document.getElementById("results");
+
+      if (error) {
+        errorBox.textContent = error;
+        errorBox.classList.remove("hidden");
+        results.classList.add("hidden");
+        document.getElementById("nozzleList").innerHTML =
+          '<div class="error-box">Valid inputs are required before nozzle times can be calculated.</div>';
+        return;
+      }
+
+      errorBox.classList.add("hidden");
+      results.classList.remove("hidden");
+
+      const faceWidth = (flangeOD - flangeID) / 2;
+
+      const volume =
+        (Math.PI / 4) *
+        ((flangeOD ** 2) - (flangeID ** 2)) *
+        thickness;
+
+      const weight = volume * steelDensity;
+      const temperatureRise = targetTemperature - ambientTemperature;
+      const netBTU = weight * specificHeat * temperatureRise;
+      const grossBTU = netBTU / thermalEfficiency;
+
+      document.getElementById("flangeID").textContent =
+        `${formatNumber(flangeID)} in`;
+
+      document.getElementById("flangeOD").textContent =
+        `${formatNumber(flangeOD)} in`;
+
+      document.getElementById("faceWidth").textContent =
+        `${formatNumber(faceWidth)} in`;
+
+      document.getElementById("volume").textContent =
+        `${formatNumber(volume)} in³`;
+
+      document.getElementById("weight").textContent =
+        `${formatNumber(weight)} lb`;
+
+      document.getElementById("temperatureRise").textContent =
+        `${formatNumber(temperatureRise, 0)} °F`;
+
+      document.getElementById("netBTU").textContent =
+        `${formatNumber(netBTU)} BTU`;
+
+      document.getElementById("grossBTU").textContent =
+        `${formatNumber(grossBTU)} BTU`;
+
+      renderNozzles(grossBTU);
+      saveInputs();
+    }
+
+    function renderNozzles(grossBTU) {
+      const nozzleList = document.getElementById("nozzleList");
+
+      nozzleList.innerHTML = nozzles.map(nozzle => {
+        const minutes = (grossBTU / nozzle.btuPerHour) * 60;
+        const suggestedClass = nozzle.suggested ? "suggested" : "";
+        const badge = nozzle.suggested
+          ? '<span class="badge">Suggested</span>'
+          : "";
+
+        const note = nozzle.note
+          ? `<p class="note">${nozzle.note}</p>`
+          : "";
+
+        return `
+          <article class="nozzle-card ${suggestedClass}">
+            <div class="nozzle-heading">
+              <div>
+                <h3 class="nozzle-name">${nozzle.name}</h3>
+                <p class="fuel-type">${nozzle.fuelType}</p>
+              </div>
+              ${badge}
+            </div>
+
+            <div class="nozzle-data">
+              <div>
+                <span class="data-label">Fuel gas</span>
+                <span class="data-value">
+                  ${formatWholeNumber(nozzle.fuelGasCFH)} CFH
+                </span>
+              </div>
+
+              <div>
+                <span class="data-label">Oxygen</span>
+                <span class="data-value">
+                  ${formatWholeNumber(nozzle.oxygenCFH)} CFH
+                </span>
+              </div>
+
+              <div>
+                <span class="data-label">Output</span>
+                <span class="data-value">
+                  ${formatWholeNumber(nozzle.btuPerHour)} BTU/hr
+                </span>
+              </div>
+            </div>
+
+            <div class="time-row">
+              <span>Estimated preheat time</span>
+              <span class="time-value">
+                ${formatNumber(minutes)} min
+              </span>
+            </div>
+
+            ${note}
+          </article>
+        `;
+      }).join("");
+    }
+
+    function saveInputs() {
+      const savedValues = {};
+
+      inputIds.forEach(id => {
+        savedValues[id] = document.getElementById(id).value;
+      });
+
+      localStorage.setItem(
+        "preheat-calculator-inputs",
+        JSON.stringify(savedValues)
+      );
+    }
+
+    function loadInputs() {
+      try {
+        const savedValues = JSON.parse(
+          localStorage.getItem("preheat-calculator-inputs")
+        );
+
+        if (!savedValues) {
+          return;
+        }
+
+        inputIds.forEach(id => {
+          if (savedValues[id] !== undefined) {
+            document.getElementById(id).value = savedValues[id];
+          }
+        });
+      } catch {
+        localStorage.removeItem("preheat-calculator-inputs");
+      }
+    }
+
+    function resetInputs() {
+      inputIds.forEach(id => {
+        document.getElementById(id).value = defaults[id];
+      });
+
+      localStorage.removeItem("preheat-calculator-inputs");
+      calculate();
+    }
+
+    inputIds.forEach(id => {
+      document.getElementById(id).addEventListener("input", calculate);
+      document.getElementById(id).addEventListener("change", calculate);
+    });
+
+    document
+      .getElementById("resetButton")
+      .addEventListener("click", resetInputs);
+
+    const isIOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+      !window.MSStream;
+
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true;
+
+    if (isIOS && !isStandalone) {
+      document.getElementById("installPanel").classList.remove("hidden");
+    }
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./service-worker.js")
+          .catch(error => {
+            console.error("Service worker registration failed:", error);
+          });
+      });
+    }
+
+    loadInputs();
+    calculate();
+  </script>
+</body>
+</html>
