@@ -31,6 +31,8 @@
       --border: #d1d5db;
       --success: #166534;
       --success-bg: #dcfce7;
+      --suggested: #1d4ed8;
+      --suggested-bg: #dbeafe;
       --warning: #92400e;
       --warning-bg: #fef3c7;
       --danger: #991b1b;
@@ -63,7 +65,8 @@
     }
 
     button,
-    input {
+    input,
+    select {
       font: inherit;
     }
 
@@ -84,7 +87,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      max-width: 850px;
+      max-width: 900px;
       margin: 0 auto;
       gap: 12px;
     }
@@ -110,12 +113,8 @@
       cursor: pointer;
     }
 
-    .reset-button:active {
-      transform: scale(0.98);
-    }
-
     main {
-      width: min(100%, 850px);
+      width: min(100%, 900px);
       margin: 0 auto;
       padding: 16px 14px calc(36px + env(safe-area-inset-bottom));
     }
@@ -149,9 +148,10 @@
     }
 
     .input-row,
-    .result-row {
+    .result-row,
+    .property-row {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 115px 72px;
+      grid-template-columns: minmax(0, 1fr) 115px 70px;
       align-items: center;
       min-height: 54px;
       gap: 8px;
@@ -159,8 +159,42 @@
     }
 
     .input-row:last-child,
-    .result-row:last-child {
+    .result-row:last-child,
+    .property-row:last-child {
       border-bottom: 0;
+    }
+
+    .selector-row {
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .selector-row label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .select-input,
+    .number-input {
+      width: 100%;
+      min-height: 42px;
+      padding: 8px 10px;
+      color: var(--text);
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+
+    .number-input {
+      text-align: right;
+    }
+
+    .select-input:focus,
+    .number-input:focus {
+      outline: 3px solid rgba(185, 28, 28, 0.15);
+      border-color: var(--primary);
     }
 
     .input-label,
@@ -168,32 +202,34 @@
       font-size: 0.92rem;
     }
 
-    .number-input {
-      width: 100%;
-      min-height: 40px;
-      padding: 8px 10px;
-      text-align: right;
-      color: var(--text);
-      background: #f9fafb;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-    }
-
-    .number-input:focus {
-      outline: 3px solid rgba(185, 28, 28, 0.15);
-      border-color: var(--primary);
-    }
-
     .unit {
       color: var(--secondary);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
+    }
+
+    .property-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .property-value {
+      text-align: right;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .property-panel {
+      margin: 12px 0;
+      padding: 4px 12px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
     }
 
     .help-text {
-      margin: 8px 0 12px;
+      margin: 10px 0 12px;
       color: var(--secondary);
       font-size: 0.78rem;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .result-row {
@@ -236,14 +272,19 @@
 
     .nozzle-card {
       padding: 14px;
-      background: #ffffff;
+      background: white;
       border: 1px solid #e5e7eb;
       border-radius: 13px;
     }
 
-    .nozzle-card.suggested {
+    .nozzle-card.recommended {
       border: 2px solid #22c55e;
       background: #f0fdf4;
+    }
+
+    .nozzle-card.suggested {
+      border: 2px solid #60a5fa;
+      background: #eff6ff;
     }
 
     .nozzle-heading {
@@ -267,11 +308,19 @@
     .badge {
       flex-shrink: 0;
       padding: 4px 8px;
-      color: var(--success);
-      background: var(--success-bg);
       border-radius: 999px;
       font-size: 0.7rem;
       font-weight: 700;
+    }
+
+    .badge.recommended {
+      color: var(--success);
+      background: var(--success-bg);
+    }
+
+    .badge.suggested {
+      color: var(--suggested);
+      background: var(--suggested-bg);
     }
 
     .nozzle-data {
@@ -328,15 +377,6 @@
       line-height: 1.45;
     }
 
-    .install-panel {
-      padding: 14px 16px;
-      color: #1e3a8a;
-      background: #eff6ff;
-      border-bottom: 1px solid #bfdbfe;
-      font-size: 0.84rem;
-      line-height: 1.45;
-    }
-
     .disclaimer {
       color: var(--secondary);
       font-size: 0.78rem;
@@ -345,7 +385,7 @@
 
     @media (max-width: 480px) {
       .input-row {
-        grid-template-columns: minmax(0, 1fr) 96px 60px;
+        grid-template-columns: minmax(0, 1fr) 96px 57px;
       }
 
       .input-label {
@@ -381,17 +421,9 @@
 
   <main>
     <p class="intro">
-      Estimate the energy and time required to preheat a carbon-steel flange
-      using an oxy-fuel heating nozzle.
+      Estimate the energy and time required to preheat a flange or ring using
+      an oxy-fuel heating nozzle.
     </p>
-
-    <section id="installPanel" class="card hidden">
-      <div class="install-panel">
-        <strong>Install on iPhone:</strong>
-        Open this page in Safari, tap the Share button, and select
-        <strong>Add to Home Screen</strong>.
-      </div>
-    </section>
 
     <section class="card">
       <h2 class="card-title">Flange Dimensions</h2>
@@ -401,7 +433,7 @@
           <span class="input-label">Pipe base diameter</span>
           <input
             id="pipeDiameter"
-            class="number-input"
+            class="number-input user-input"
             type="number"
             inputmode="decimal"
             min="0"
@@ -415,7 +447,7 @@
           <span class="input-label">Inside overhang</span>
           <input
             id="insideOverhang"
-            class="number-input"
+            class="number-input user-input"
             type="number"
             inputmode="decimal"
             min="0"
@@ -429,7 +461,7 @@
           <span class="input-label">Outside extension</span>
           <input
             id="outsideExtension"
-            class="number-input"
+            class="number-input user-input"
             type="number"
             inputmode="decimal"
             min="0"
@@ -443,7 +475,7 @@
           <span class="input-label">Thickness</span>
           <input
             id="thickness"
-            class="number-input"
+            class="number-input user-input"
             type="number"
             inputmode="decimal"
             min="0"
@@ -456,36 +488,71 @@
     </section>
 
     <section class="card">
-      <h2 class="card-title">Material Properties</h2>
+      <h2 class="card-title">Material Selection</h2>
 
       <div class="card-body">
-        <label class="input-row">
-          <span class="input-label">Steel density</span>
-          <input
-            id="steelDensity"
-            class="number-input"
-            type="number"
-            inputmode="decimal"
-            min="0"
-            step="any"
-            value="0.2833"
-          >
-          <span class="unit">lb/in³</span>
-        </label>
+        <div class="selector-row">
+          <label for="materialCategory">Material category</label>
+          <select id="materialCategory" class="select-input">
+            <option value="">Select a category</option>
+          </select>
+        </div>
 
-        <label class="input-row">
-          <span class="input-label">Specific heat</span>
-          <input
-            id="specificHeat"
-            class="number-input"
-            type="number"
-            inputmode="decimal"
-            min="0"
-            step="any"
-            value="0.12"
-          >
-          <span class="unit">BTU/lb°F</span>
-        </label>
+        <div class="selector-row">
+          <label for="materialGrade">Specific alloy or grade</label>
+          <select id="materialGrade" class="select-input" disabled>
+            <option value="">Select a category first</option>
+          </select>
+        </div>
+
+        <div id="customMaterialFields" class="hidden">
+          <label class="input-row">
+            <span class="input-label">Custom density</span>
+            <input
+              id="customDensity"
+              class="number-input"
+              type="number"
+              inputmode="decimal"
+              min="0"
+              step="any"
+              placeholder="Required"
+            >
+            <span class="unit">lb/in³</span>
+          </label>
+
+          <label class="input-row">
+            <span class="input-label">Custom specific heat</span>
+            <input
+              id="customSpecificHeat"
+              class="number-input"
+              type="number"
+              inputmode="decimal"
+              min="0"
+              step="any"
+              placeholder="Required"
+            >
+            <span class="unit">BTU/lb°F</span>
+          </label>
+        </div>
+
+        <div id="materialProperties" class="property-panel hidden">
+          <div class="property-row">
+            <span>Density</span>
+            <span id="densityDisplay" class="property-value"></span>
+          </div>
+
+          <div class="property-row">
+            <span>Specific heat</span>
+            <span id="specificHeatDisplay" class="property-value"></span>
+          </div>
+        </div>
+
+        <p class="help-text">
+          Material properties are nominal reference values near room
+          temperature. Actual properties vary with temperature, specification,
+          chemistry, product form, and heat treatment. Use approved engineering
+          data when required.
+        </p>
       </div>
     </section>
 
@@ -497,7 +564,7 @@
           <span class="input-label">Ambient temperature</span>
           <input
             id="ambientTemperature"
-            class="number-input"
+            class="number-input user-input"
             type="number"
             inputmode="decimal"
             step="any"
@@ -510,7 +577,7 @@
           <span class="input-label">Target temperature</span>
           <input
             id="targetTemperature"
-            class="number-input"
+            class="number-input user-input"
             type="number"
             inputmode="decimal"
             step="any"
@@ -523,7 +590,7 @@
           <span class="input-label">Thermal efficiency</span>
           <input
             id="thermalEfficiency"
-            class="number-input"
+            class="number-input user-input"
             type="number"
             inputmode="decimal"
             min="0.0001"
@@ -606,25 +673,178 @@
         </div>
 
         <p>
-          Verify nozzle ratings, gas-supply capacity, equipment compatibility,
-          manufacturer instructions, welding procedures, and site safety
-          requirements before use.
+          The displayed recommendation is based on the original spreadsheet
+          designation and calculated heating time. It does not verify equipment
+          compatibility, gas-supply capacity, procedure requirements, or safe
+          operating limits.
+        </p>
+
+        <p>
+          Verify material properties, nozzle ratings, fuel compatibility,
+          gas-supply capacity, manufacturer instructions, welding procedures,
+          and site safety requirements before use.
         </p>
       </div>
     </section>
   </main>
 
   <script>
-    const defaults = {
-      pipeDiameter: 24,
-      insideOverhang: 2,
-      outsideExtension: 6,
-      thickness: 2.25,
-      steelDensity: 0.2833,
-      specificHeat: 0.12,
-      ambientTemperature: 70,
-      targetTemperature: 300,
-      thermalEfficiency: 0.12
+    const materialDatabase = {
+      "Carbon and Structural Steel": [
+        ["Generic carbon steel", 0.2833, 0.120],
+        ["ASTM A36", 0.2833, 0.120],
+        ["ASTM A500 Grade B", 0.2833, 0.120],
+        ["ASTM A500 Grade C", 0.2833, 0.120],
+        ["ASTM A572 Grade 42", 0.2833, 0.120],
+        ["ASTM A572 Grade 50", 0.2833, 0.120],
+        ["ASTM A572 Grade 55", 0.2833, 0.120],
+        ["ASTM A572 Grade 60", 0.2833, 0.120],
+        ["ASTM A572 Grade 65", 0.2833, 0.120],
+        ["ASTM A588 weathering steel", 0.2833, 0.120],
+        ["ASTM A709 structural steel", 0.2833, 0.120],
+        ["ASTM A992 structural steel", 0.2833, 0.120],
+        ["SAE/AISI 1010", 0.2840, 0.116],
+        ["SAE/AISI 1018", 0.2840, 0.116],
+        ["SAE/AISI 1020", 0.2840, 0.116],
+        ["SAE/AISI 1045", 0.2840, 0.116]
+      ],
+
+      "Pipe and Pressure Vessel Steel": [
+        ["ASTM A53 carbon steel pipe", 0.2833, 0.120],
+        ["ASTM A106 Grade B", 0.2833, 0.120],
+        ["ASTM A106 Grade C", 0.2833, 0.120],
+        ["API 5L Grade B", 0.2833, 0.120],
+        ["API 5L X42", 0.2833, 0.120],
+        ["API 5L X52", 0.2833, 0.120],
+        ["API 5L X60", 0.2833, 0.120],
+        ["API 5L X65", 0.2833, 0.120],
+        ["API 5L X70", 0.2833, 0.120],
+        ["ASTM A285 Grade C", 0.2833, 0.120],
+        ["ASTM A516 Grade 55", 0.2833, 0.120],
+        ["ASTM A516 Grade 60", 0.2833, 0.120],
+        ["ASTM A516 Grade 65", 0.2833, 0.120],
+        ["ASTM A516 Grade 70", 0.2833, 0.120],
+        ["ASTM A387 Grade 11", 0.2833, 0.115],
+        ["ASTM A387 Grade 22", 0.2833, 0.115]
+      ],
+
+      "Low-Alloy and High-Strength Steel": [
+        ["SAE/AISI 4130", 0.2830, 0.114],
+        ["SAE/AISI 4140", 0.2840, 0.114],
+        ["SAE/AISI 4145", 0.2840, 0.114],
+        ["SAE/AISI 4340", 0.2830, 0.114],
+        ["SAE/AISI 8620", 0.2840, 0.114],
+        ["ASTM A514 quenched and tempered", 0.2833, 0.114],
+        ["ASTM A517 pressure vessel steel", 0.2833, 0.114]
+      ],
+
+      "Stainless Steel": [
+        ["304", 0.2890, 0.120],
+        ["304L", 0.2890, 0.120],
+        ["309", 0.2850, 0.120],
+        ["309S", 0.2850, 0.120],
+        ["310", 0.2900, 0.120],
+        ["310S", 0.2900, 0.120],
+        ["316", 0.2890, 0.120],
+        ["316L", 0.2890, 0.120],
+        ["317L", 0.2900, 0.120],
+        ["321", 0.2860, 0.120],
+        ["347", 0.2880, 0.120],
+        ["409", 0.2780, 0.110],
+        ["410", 0.2800, 0.110],
+        ["420", 0.2780, 0.110],
+        ["430", 0.2780, 0.110],
+        ["446", 0.2740, 0.110],
+        ["17-4 PH", 0.2820, 0.110],
+        ["15-5 PH", 0.2820, 0.110]
+      ],
+
+      "Duplex and Super Duplex Stainless": [
+        ["Lean duplex 2101", 0.2810, 0.120],
+        ["Duplex 2304", 0.2810, 0.120],
+        ["Duplex 2205", 0.2820, 0.120],
+        ["Super duplex 2507", 0.2810, 0.120]
+      ],
+
+      "Abrasion-Resistant, Tool and Cast Materials": [
+        ["AR400", 0.2833, 0.114],
+        ["AR450", 0.2833, 0.114],
+        ["AR500", 0.2833, 0.114],
+        ["A2 tool steel", 0.2840, 0.110],
+        ["D2 tool steel", 0.2780, 0.110],
+        ["H13 tool steel", 0.2820, 0.110],
+        ["Generic cast carbon steel", 0.2833, 0.120],
+        ["Gray cast iron", 0.2600, 0.110],
+        ["Ductile cast iron", 0.2560, 0.110],
+        ["Malleable cast iron", 0.2640, 0.110]
+      ],
+
+      "Aluminum Alloys": [
+        ["Generic aluminum", 0.0975, 0.215],
+        ["1100", 0.0980, 0.215],
+        ["2024", 0.1000, 0.210],
+        ["3003", 0.0986, 0.215],
+        ["5052", 0.0968, 0.215],
+        ["5083", 0.0958, 0.215],
+        ["5086", 0.0965, 0.215],
+        ["5454", 0.0970, 0.215],
+        ["6061", 0.0975, 0.214],
+        ["6063", 0.0970, 0.215],
+        ["6082", 0.0975, 0.215],
+        ["7075", 0.1010, 0.230]
+      ],
+
+      "Nickel and Nickel Alloys": [
+        ["Nickel 200", 0.3210, 0.106],
+        ["Nickel 201", 0.3210, 0.106],
+        ["Monel 400", 0.3190, 0.102],
+        ["Monel K-500", 0.3050, 0.100],
+        ["Inconel 600", 0.3070, 0.106],
+        ["Inconel 601", 0.2930, 0.107],
+        ["Inconel 625", 0.3050, 0.098],
+        ["Inconel 718", 0.2960, 0.104],
+        ["Incoloy 800", 0.2870, 0.110],
+        ["Incoloy 825", 0.2940, 0.105],
+        ["Hastelloy C-276", 0.3210, 0.102],
+        ["Hastelloy C-22", 0.3140, 0.099]
+      ],
+
+      "Copper and Copper Alloys": [
+        ["Pure copper", 0.3230, 0.092],
+        ["C110 electrolytic tough pitch copper", 0.3230, 0.092],
+        ["C122 phosphorus-deoxidized copper", 0.3230, 0.092],
+        ["C260 cartridge brass", 0.3080, 0.090],
+        ["C360 free-cutting brass", 0.3070, 0.090],
+        ["C464 naval brass", 0.3040, 0.090],
+        ["C510 phosphor bronze", 0.3200, 0.090],
+        ["C630 aluminum bronze", 0.2740, 0.100],
+        ["C706 copper-nickel 90/10", 0.3230, 0.090],
+        ["C715 copper-nickel 70/30", 0.3230, 0.090]
+      ],
+
+      "Titanium Alloys": [
+        ["Commercially pure titanium Grade 1", 0.1630, 0.125],
+        ["Commercially pure titanium Grade 2", 0.1630, 0.125],
+        ["Commercially pure titanium Grade 3", 0.1630, 0.125],
+        ["Commercially pure titanium Grade 4", 0.1630, 0.125],
+        ["Titanium Grade 5 - Ti-6Al-4V", 0.1600, 0.126],
+        ["Titanium Grade 7", 0.1630, 0.125],
+        ["Titanium Grade 9 - Ti-3Al-2.5V", 0.1620, 0.126],
+        ["Titanium Grade 12", 0.1630, 0.125]
+      ],
+
+      "Magnesium Alloys": [
+        ["Generic magnesium", 0.0630, 0.250],
+        ["AZ31B", 0.0640, 0.250],
+        ["AZ61A", 0.0650, 0.250],
+        ["AZ80A", 0.0650, 0.250],
+        ["AZ91D", 0.0660, 0.250],
+        ["ZK60A", 0.0660, 0.250]
+      ],
+
+      "Custom Material": [
+        ["Enter custom properties", null, null]
+      ]
     };
 
     const nozzles = [
@@ -677,8 +897,8 @@
         fuelGasCFH: 90,
         oxygenCFH: 380,
         btuPerHour: 380000,
-        note: "Suggested",
-        suggested: true
+        ranking: 1,
+        badge: "Suggested"
       },
       {
         name: "Type 55 - Size 20",
@@ -686,8 +906,8 @@
         fuelGasCFH: 140,
         oxygenCFH: 600,
         btuPerHour: 600000,
-        note: "Suggested",
-        suggested: true
+        ranking: 2,
+        badge: "Recommended"
       },
       {
         name: "MFA 4",
@@ -735,7 +955,92 @@
       }
     ];
 
-    const inputIds = Object.keys(defaults);
+    const userInputIds = [
+      "pipeDiameter",
+      "insideOverhang",
+      "outsideExtension",
+      "thickness",
+      "ambientTemperature",
+      "targetTemperature",
+      "thermalEfficiency"
+    ];
+
+    const categorySelect = document.getElementById("materialCategory");
+    const gradeSelect = document.getElementById("materialGrade");
+    const customFields = document.getElementById("customMaterialFields");
+    const materialProperties = document.getElementById("materialProperties");
+
+    function initializeMaterialCategories() {
+      Object.keys(materialDatabase).forEach(category => {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categorySelect.appendChild(option);
+      });
+    }
+
+    function populateGrades(selectedGrade = "") {
+      const category = categorySelect.value;
+
+      gradeSelect.innerHTML = "";
+
+      if (!category || !materialDatabase[category]) {
+        gradeSelect.disabled = true;
+        gradeSelect.innerHTML =
+          '<option value="">Select a category first</option>';
+        customFields.classList.add("hidden");
+        return;
+      }
+
+      gradeSelect.disabled = false;
+      gradeSelect.innerHTML =
+        '<option value="">Select an alloy or grade</option>';
+
+      materialDatabase[category].forEach((material, index) => {
+        const option = document.createElement("option");
+        option.value = String(index);
+        option.textContent = material[0];
+        gradeSelect.appendChild(option);
+      });
+
+      if (selectedGrade !== "") {
+        gradeSelect.value = selectedGrade;
+      }
+
+      customFields.classList.toggle(
+        "hidden",
+        category !== "Custom Material"
+      );
+    }
+
+    function getSelectedMaterial() {
+      const category = categorySelect.value;
+      const gradeIndex = gradeSelect.value;
+
+      if (!category || gradeIndex === "") {
+        return null;
+      }
+
+      const material = materialDatabase[category][Number(gradeIndex)];
+
+      if (!material) {
+        return null;
+      }
+
+      if (category === "Custom Material") {
+        return {
+          name: material[0],
+          density: getNumber("customDensity"),
+          specificHeat: getNumber("customSpecificHeat")
+        };
+      }
+
+      return {
+        name: material[0],
+        density: material[1],
+        specificHeat: material[2]
+      };
+    }
 
     function getNumber(id) {
       const value = Number.parseFloat(document.getElementById(id).value);
@@ -755,73 +1060,118 @@
       });
     }
 
-    function calculate() {
+    function updateMaterialDisplay(material) {
+      if (
+        !material ||
+        !Number.isFinite(material.density) ||
+        !Number.isFinite(material.specificHeat)
+      ) {
+        materialProperties.classList.add("hidden");
+        return;
+      }
+
+      document.getElementById("densityDisplay").textContent =
+        `${formatNumber(material.density, 4)} lb/in³`;
+
+      document.getElementById("specificHeatDisplay").textContent =
+        `${formatNumber(material.specificHeat, 3)} BTU/lb·°F`;
+
+      materialProperties.classList.remove("hidden");
+    }
+
+    function showInvalidState(message) {
+      const errorBox = document.getElementById("errorBox");
+
+      errorBox.textContent = message;
+      errorBox.classList.remove("hidden");
+
+      document.getElementById("results").classList.add("hidden");
+
+      document.getElementById("nozzleList").innerHTML =
+        '<div class="error-box">Complete all required inputs to calculate nozzle heating times.</div>';
+    }
+
+    function calculate(save = true) {
       const pipeDiameter = getNumber("pipeDiameter");
       const insideOverhang = getNumber("insideOverhang");
       const outsideExtension = getNumber("outsideExtension");
       const thickness = getNumber("thickness");
-      const steelDensity = getNumber("steelDensity");
-      const specificHeat = getNumber("specificHeat");
       const ambientTemperature = getNumber("ambientTemperature");
       const targetTemperature = getNumber("targetTemperature");
       const thermalEfficiency = getNumber("thermalEfficiency");
+      const material = getSelectedMaterial();
+
+      updateMaterialDisplay(material);
+
+      if (save) {
+        saveInputs();
+      }
+
+      if (!material) {
+        showInvalidState("Select a material category and a specific alloy or grade.");
+        return;
+      }
+
+      if (
+        !Number.isFinite(material.density) ||
+        material.density <= 0 ||
+        !Number.isFinite(material.specificHeat) ||
+        material.specificHeat <= 0
+      ) {
+        showInvalidState("Enter valid custom material properties.");
+        return;
+      }
 
       const values = [
         pipeDiameter,
         insideOverhang,
         outsideExtension,
         thickness,
-        steelDensity,
-        specificHeat,
         ambientTemperature,
         targetTemperature,
         thermalEfficiency
       ];
 
-      let error = "";
-
       if (values.some(value => !Number.isFinite(value))) {
-        error = "Enter a valid number in every field.";
-      } else if (
+        showInvalidState("Complete all user input fields with valid numbers.");
+        return;
+      }
+
+      if (
         pipeDiameter <= 0 ||
         insideOverhang < 0 ||
         outsideExtension < 0 ||
-        thickness <= 0 ||
-        steelDensity <= 0 ||
-        specificHeat <= 0
+        thickness <= 0
       ) {
-        error = "Dimensions and material values must be greater than zero.";
-      } else if (thermalEfficiency <= 0 || thermalEfficiency > 1) {
-        error = "Thermal efficiency must be greater than 0 and no more than 1.";
-      } else if (targetTemperature < ambientTemperature) {
-        error = "Target temperature cannot be lower than ambient temperature.";
+        showInvalidState("Dimensions must be valid and greater than zero where required.");
+        return;
+      }
+
+      if (thermalEfficiency <= 0 || thermalEfficiency > 1) {
+        showInvalidState("Thermal efficiency must be greater than 0 and no more than 1.");
+        return;
+      }
+
+      if (targetTemperature < ambientTemperature) {
+        showInvalidState("Target temperature cannot be lower than ambient temperature.");
+        return;
       }
 
       const flangeID = pipeDiameter - (2 * insideOverhang);
       const flangeOD = pipeDiameter + (2 * outsideExtension);
 
-      if (!error && flangeID < 0) {
-        error = "Inside overhang produces an invalid flange inner diameter.";
-      }
-
-      if (!error && flangeOD <= flangeID) {
-        error = "Flange outer diameter must be greater than inner diameter.";
-      }
-
-      const errorBox = document.getElementById("errorBox");
-      const results = document.getElementById("results");
-
-      if (error) {
-        errorBox.textContent = error;
-        errorBox.classList.remove("hidden");
-        results.classList.add("hidden");
-        document.getElementById("nozzleList").innerHTML =
-          '<div class="error-box">Valid inputs are required before nozzle times can be calculated.</div>';
+      if (flangeID < 0) {
+        showInvalidState("Inside overhang produces an invalid flange inner diameter.");
         return;
       }
 
-      errorBox.classList.add("hidden");
-      results.classList.remove("hidden");
+      if (flangeOD <= flangeID) {
+        showInvalidState("Flange outer diameter must be greater than inner diameter.");
+        return;
+      }
+
+      document.getElementById("errorBox").classList.add("hidden");
+      document.getElementById("results").classList.remove("hidden");
 
       const faceWidth = (flangeOD - flangeID) / 2;
 
@@ -830,9 +1180,9 @@
         ((flangeOD ** 2) - (flangeID ** 2)) *
         thickness;
 
-      const weight = volume * steelDensity;
+      const weight = volume * material.density;
       const temperatureRise = targetTemperature - ambientTemperature;
-      const netBTU = weight * specificHeat * temperatureRise;
+      const netBTU = weight * material.specificHeat * temperatureRise;
       const grossBTU = netBTU / thermalEfficiency;
 
       document.getElementById("flangeID").textContent =
@@ -860,78 +1210,101 @@
         `${formatNumber(grossBTU)} BTU`;
 
       renderNozzles(grossBTU);
-      saveInputs();
     }
 
     function renderNozzles(grossBTU) {
-      const nozzleList = document.getElementById("nozzleList");
+      const sortedNozzles = [...nozzles].sort((a, b) => {
+        const rankingDifference = (b.ranking || 0) - (a.ranking || 0);
 
-      nozzleList.innerHTML = nozzles.map(nozzle => {
-        const minutes = (grossBTU / nozzle.btuPerHour) * 60;
-        const suggestedClass = nozzle.suggested ? "suggested" : "";
-        const badge = nozzle.suggested
-          ? '<span class="badge">Suggested</span>'
-          : "";
+        if (rankingDifference !== 0) {
+          return rankingDifference;
+        }
 
-        const note = nozzle.note
-          ? `<p class="note">${nozzle.note}</p>`
-          : "";
+        return a.btuPerHour - b.btuPerHour;
+      });
 
-        return `
-          <article class="nozzle-card ${suggestedClass}">
-            <div class="nozzle-heading">
-              <div>
-                <h3 class="nozzle-name">${nozzle.name}</h3>
-                <p class="fuel-type">${nozzle.fuelType}</p>
+      document.getElementById("nozzleList").innerHTML =
+        sortedNozzles.map(nozzle => {
+          const minutes = (grossBTU / nozzle.btuPerHour) * 60;
+
+          let cardClass = "";
+          let badge = "";
+
+          if (nozzle.badge === "Recommended") {
+            cardClass = "recommended";
+            badge =
+              '<span class="badge recommended">Recommended</span>';
+          } else if (nozzle.badge === "Suggested") {
+            cardClass = "suggested";
+            badge =
+              '<span class="badge suggested">Suggested</span>';
+          }
+
+          const note = nozzle.note
+            ? `<p class="note">${nozzle.note}</p>`
+            : "";
+
+          return `
+            <article class="nozzle-card ${cardClass}">
+              <div class="nozzle-heading">
+                <div>
+                  <h3 class="nozzle-name">${nozzle.name}</h3>
+                  <p class="fuel-type">${nozzle.fuelType}</p>
+                </div>
+                ${badge}
               </div>
-              ${badge}
-            </div>
 
-            <div class="nozzle-data">
-              <div>
-                <span class="data-label">Fuel gas</span>
-                <span class="data-value">
-                  ${formatWholeNumber(nozzle.fuelGasCFH)} CFH
+              <div class="nozzle-data">
+                <div>
+                  <span class="data-label">Fuel gas</span>
+                  <span class="data-value">
+                    ${formatWholeNumber(nozzle.fuelGasCFH)} CFH
+                  </span>
+                </div>
+
+                <div>
+                  <span class="data-label">Oxygen</span>
+                  <span class="data-value">
+                    ${formatWholeNumber(nozzle.oxygenCFH)} CFH
+                  </span>
+                </div>
+
+                <div>
+                  <span class="data-label">Output</span>
+                  <span class="data-value">
+                    ${formatWholeNumber(nozzle.btuPerHour)} BTU/hr
+                  </span>
+                </div>
+              </div>
+
+              <div class="time-row">
+                <span>Estimated preheat time</span>
+                <span class="time-value">
+                  ${formatNumber(minutes)} min
                 </span>
               </div>
 
-              <div>
-                <span class="data-label">Oxygen</span>
-                <span class="data-value">
-                  ${formatWholeNumber(nozzle.oxygenCFH)} CFH
-                </span>
-              </div>
-
-              <div>
-                <span class="data-label">Output</span>
-                <span class="data-value">
-                  ${formatWholeNumber(nozzle.btuPerHour)} BTU/hr
-                </span>
-              </div>
-            </div>
-
-            <div class="time-row">
-              <span>Estimated preheat time</span>
-              <span class="time-value">
-                ${formatNumber(minutes)} min
-              </span>
-            </div>
-
-            ${note}
-          </article>
-        `;
-      }).join("");
+              ${note}
+            </article>
+          `;
+        }).join("");
     }
 
     function saveInputs() {
-      const savedValues = {};
+      const savedValues = {
+        materialCategory: categorySelect.value,
+        materialGrade: gradeSelect.value,
+        customDensity: document.getElementById("customDensity").value,
+        customSpecificHeat:
+          document.getElementById("customSpecificHeat").value
+      };
 
-      inputIds.forEach(id => {
+      userInputIds.forEach(id => {
         savedValues[id] = document.getElementById(id).value;
       });
 
       localStorage.setItem(
-        "preheat-calculator-inputs",
+        "preheat-calculator-v2-inputs",
         JSON.stringify(savedValues)
       );
     }
@@ -939,52 +1312,79 @@
     function loadInputs() {
       try {
         const savedValues = JSON.parse(
-          localStorage.getItem("preheat-calculator-inputs")
+          localStorage.getItem("preheat-calculator-v2-inputs")
         );
 
         if (!savedValues) {
+          categorySelect.value = "Carbon and Structural Steel";
+          populateGrades("0");
           return;
         }
 
-        inputIds.forEach(id => {
+        userInputIds.forEach(id => {
           if (savedValues[id] !== undefined) {
             document.getElementById(id).value = savedValues[id];
           }
         });
+
+        categorySelect.value = savedValues.materialCategory || "";
+        populateGrades(savedValues.materialGrade || "");
+
+        document.getElementById("customDensity").value =
+          savedValues.customDensity || "";
+
+        document.getElementById("customSpecificHeat").value =
+          savedValues.customSpecificHeat || "";
       } catch {
-        localStorage.removeItem("preheat-calculator-inputs");
+        localStorage.removeItem("preheat-calculator-v2-inputs");
+        categorySelect.value = "Carbon and Structural Steel";
+        populateGrades("0");
       }
     }
 
     function resetInputs() {
-      inputIds.forEach(id => {
-        document.getElementById(id).value = defaults[id];
+      userInputIds.forEach(id => {
+        document.getElementById(id).value = "";
       });
 
-      localStorage.removeItem("preheat-calculator-inputs");
-      calculate();
+      categorySelect.value = "";
+      populateGrades();
+
+      document.getElementById("customDensity").value = "";
+      document.getElementById("customSpecificHeat").value = "";
+
+      materialProperties.classList.add("hidden");
+      localStorage.removeItem("preheat-calculator-v2-inputs");
+
+      calculate(false);
     }
 
-    inputIds.forEach(id => {
+    initializeMaterialCategories();
+    loadInputs();
+
+    userInputIds.forEach(id => {
       document.getElementById(id).addEventListener("input", calculate);
       document.getElementById(id).addEventListener("change", calculate);
     });
 
+    categorySelect.addEventListener("change", () => {
+      populateGrades();
+      calculate();
+    });
+
+    gradeSelect.addEventListener("change", calculate);
+
+    document
+      .getElementById("customDensity")
+      .addEventListener("input", calculate);
+
+    document
+      .getElementById("customSpecificHeat")
+      .addEventListener("input", calculate);
+
     document
       .getElementById("resetButton")
       .addEventListener("click", resetInputs);
-
-    const isIOS =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-      !window.MSStream;
-
-    const isStandalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone === true;
-
-    if (isIOS && !isStandalone) {
-      document.getElementById("installPanel").classList.remove("hidden");
-    }
 
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
@@ -996,7 +1396,6 @@
       });
     }
 
-    loadInputs();
     calculate();
   </script>
 </body>
