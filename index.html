@@ -22,23 +22,19 @@
   <style>
     :root {
       color-scheme: light;
-
       --victor-green: #00843d;
       --victor-green-dark: #006b35;
       --victor-green-light: #e7f4ed;
-
       --black: #111111;
       --charcoal: #292929;
       --gray-dark: #5d6065;
       --gray: #c9cbd0;
       --gray-light: #eeeeef;
       --white: #ffffff;
-
       --warning: #6b4d00;
       --warning-background: #fff4c2;
       --danger: #7f1d1d;
       --danger-background: #fee2e2;
-
       --shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
     }
 
@@ -110,7 +106,6 @@
       margin: 0;
       font-size: 1.3rem;
       font-weight: 800;
-      letter-spacing: 0.01em;
     }
 
     .header-subtitle {
@@ -170,7 +165,6 @@
         );
       font-size: 1rem;
       font-weight: 750;
-      letter-spacing: 0.01em;
     }
 
     .card-body {
@@ -294,7 +288,7 @@
       margin: 10px 0;
       padding: 12px;
       border-radius: 10px;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .error-box {
@@ -413,6 +407,7 @@
       margin: 9px 0 0;
       color: var(--gray-dark);
       font-size: 0.74rem;
+      line-height: 1.4;
     }
 
     .notice {
@@ -459,7 +454,9 @@
     <div class="header-content">
       <div>
         <h1 class="header-title">Preheat Calculator</h1>
-        <p class="header-subtitle">Oxy-fuel preheat time and BTU estimator</p>
+        <p class="header-subtitle">
+          Oxy-fuel preheat time and BTU estimator
+        </p>
       </div>
 
       <button id="resetButton" class="reset-button" type="button">
@@ -480,6 +477,7 @@
       <div class="card-body">
         <label class="input-row">
           <span class="input-label">Pipe base diameter</span>
+
           <input
             id="pipeDiameter"
             class="number-input"
@@ -489,11 +487,13 @@
             step="any"
             value="24"
           >
+
           <span class="unit">in</span>
         </label>
 
         <label class="input-row">
           <span class="input-label">Inside overhang</span>
+
           <input
             id="insideOverhang"
             class="number-input"
@@ -503,11 +503,13 @@
             step="any"
             value="2"
           >
+
           <span class="unit">in</span>
         </label>
 
         <label class="input-row">
           <span class="input-label">Outside extension</span>
+
           <input
             id="outsideExtension"
             class="number-input"
@@ -517,11 +519,13 @@
             step="any"
             value="6"
           >
+
           <span class="unit">in</span>
         </label>
 
         <label class="input-row">
           <span class="input-label">Thickness</span>
+
           <input
             id="thickness"
             class="number-input"
@@ -531,6 +535,7 @@
             step="any"
             value="2.25"
           >
+
           <span class="unit">in</span>
         </label>
       </div>
@@ -559,6 +564,7 @@
         <div id="customMaterialFields" class="hidden">
           <label class="input-row">
             <span class="input-label">Custom density</span>
+
             <input
               id="customDensity"
               class="number-input"
@@ -568,11 +574,13 @@
               step="any"
               placeholder="Required"
             >
+
             <span class="unit">lb/in³</span>
           </label>
 
           <label class="input-row">
             <span class="input-label">Custom specific heat</span>
+
             <input
               id="customSpecificHeat"
               class="number-input"
@@ -582,6 +590,7 @@
               step="any"
               placeholder="Required"
             >
+
             <span class="unit">BTU/lb°F</span>
           </label>
         </div>
@@ -607,11 +616,36 @@
     </section>
 
     <section class="card">
+      <h2 class="card-title">Fuel Selection</h2>
+
+      <div class="card-body">
+        <div class="selector-row">
+          <label for="fuelType">Fuel gas</label>
+
+          <select id="fuelType" class="select-input">
+            <option value="">Select a fuel gas</option>
+            <option value="Acetylene">Acetylene</option>
+            <option value="Propane">Propane</option>
+            <option value="Propylene">Propylene</option>
+            <option value="Natural Gas">Natural Gas</option>
+          </select>
+        </div>
+
+        <p class="help-text">
+          Nozzle output, fuel flow, and oxygen flow are taken from the original
+          spreadsheet. No natural-gas nozzle ratings were included in that
+          source, so the app will not estimate natural-gas heating times.
+        </p>
+      </div>
+    </section>
+
+    <section class="card">
       <h2 class="card-title">Temperature and Efficiency</h2>
 
       <div class="card-body">
         <label class="input-row">
           <span class="input-label">Ambient temperature</span>
+
           <input
             id="ambientTemperature"
             class="number-input"
@@ -620,11 +654,13 @@
             step="any"
             value="70"
           >
+
           <span class="unit">°F</span>
         </label>
 
         <label class="input-row">
           <span class="input-label">Target temperature</span>
+
           <input
             id="targetTemperature"
             class="number-input"
@@ -633,11 +669,13 @@
             step="any"
             value="300"
           >
+
           <span class="unit">°F</span>
         </label>
 
         <label class="input-row">
           <span class="input-label">Thermal efficiency</span>
+
           <input
             id="thermalEfficiency"
             class="number-input"
@@ -648,6 +686,7 @@
             step="any"
             value="0.12"
           >
+
           <span class="unit">decimal</span>
         </label>
 
@@ -661,9 +700,11 @@
       <h2 class="card-title">Calculated Results</h2>
 
       <div class="card-body">
-        <div id="errorBox" class="error-box hidden"></div>
+        <div id="errorBox" class="empty-message">
+          Complete the required inputs to calculate results.
+        </div>
 
-        <div id="results">
+        <div id="results" class="hidden">
           <div class="result-row">
             <span class="result-label">Flange inner diameter</span>
             <span id="flangeID" class="result-value"></span>
@@ -708,8 +749,13 @@
     </section>
 
     <section class="card">
-      <h2 class="card-title">Heating Nozzle Comparison</h2>
-      <div id="nozzleList" class="nozzle-list"></div>
+      <h2 class="card-title">Compatible Nozzle Comparison</h2>
+
+      <div id="nozzleList" class="nozzle-list">
+        <div class="empty-message">
+          Select a fuel and complete all required inputs.
+        </div>
+      </div>
     </section>
 
     <section class="card">
@@ -723,15 +769,21 @@
         </div>
 
         <p>
-          The displayed recommendation comes from the original calculator. It
-          does not verify fuel compatibility, equipment compatibility,
-          gas-supply capacity, safe operating limits, or procedure requirements.
+          Heating time is calculated from each compatible nozzle's source-rated
+          BTU/hr value. The app does not apply an invented generic fuel
+          multiplier.
         </p>
 
         <p>
-          Verify material properties, nozzle ratings, gas-supply capacity,
-          manufacturer instructions, welding procedures, and site safety
-          requirements before use.
+          Recommendations come from the original calculator and do not verify
+          fuel compatibility, equipment compatibility, supply capacity,
+          operating pressure, flashback protection, safe operating limits, or
+          procedure requirements.
+        </p>
+
+        <p>
+          Verify all ratings against current manufacturer documentation and
+          follow applicable welding procedures and site safety requirements.
         </p>
       </div>
     </section>
@@ -896,19 +948,24 @@
       ]
     };
 
+    /*
+      These are source-rated nozzle values from the original spreadsheet.
+      Heating time uses the rated BTU/hr of each compatible nozzle.
+    */
     const nozzles = [
       {
         name: "Type 55 - Size 20",
-        fuelType: "High Capacity - Propylene",
+        fuels: ["Propylene"],
         fuelGasCFH: 140,
         oxygenCFH: 600,
         btuPerHour: 600000,
         priority: 2,
-        badge: "Recommended"
+        badge: "Recommended",
+        note: "High-capacity propylene configuration"
       },
       {
         name: "Type 55 - Size 15",
-        fuelType: "Propylene",
+        fuels: ["Propylene"],
         fuelGasCFH: 90,
         oxygenCFH: 380,
         btuPerHour: 380000,
@@ -917,78 +974,78 @@
       },
       {
         name: "MFN 4",
-        fuelType: "Propylene/Propane",
+        fuels: ["Propane", "Propylene"],
         fuelGasCFH: 20,
         oxygenCFH: 80,
         btuPerHour: 75000
       },
       {
         name: "MFN 6",
-        fuelType: "Propylene",
+        fuels: ["Propylene"],
         fuelGasCFH: 40,
         oxygenCFH: 160,
         btuPerHour: 150000,
-        note: "Current on site"
+        note: "Current on-site propylene configuration"
       },
       {
         name: "MFN 8",
-        fuelType: "Propylene/Propane",
+        fuels: ["Propane", "Propylene"],
         fuelGasCFH: 60,
         oxygenCFH: 260,
         btuPerHour: 250000
       },
       {
         name: "MFN 10",
-        fuelType: "Propylene/Propane",
+        fuels: ["Propane", "Propylene"],
         fuelGasCFH: 100,
         oxygenCFH: 420,
         btuPerHour: 420000
       },
       {
         name: "MFN 12",
-        fuelType: "Propylene/Propane",
+        fuels: ["Propane", "Propylene"],
         fuelGasCFH: 140,
         oxygenCFH: 600,
         btuPerHour: 600000
       },
       {
         name: "Type 55 - Size 10",
-        fuelType: "Propylene/Propane",
+        fuels: ["Propane", "Propylene"],
         fuelGasCFH: 50,
         oxygenCFH: 210,
         btuPerHour: 210000
       },
       {
         name: "MFA 4",
-        fuelType: "Acetylene",
+        fuels: ["Acetylene"],
         fuelGasCFH: 20,
         oxygenCFH: 22,
         btuPerHour: 45000
       },
       {
         name: "MFA 6",
-        fuelType: "Acetylene",
+        fuels: ["Acetylene"],
         fuelGasCFH: 40,
         oxygenCFH: 44,
         btuPerHour: 90000
       },
       {
         name: "MFA 8",
-        fuelType: "Acetylene",
+        fuels: ["Acetylene"],
         fuelGasCFH: 80,
         oxygenCFH: 88,
         btuPerHour: 175000
       },
       {
         name: "MFA 10",
-        fuelType: "Acetylene",
+        fuels: ["Acetylene"],
         fuelGasCFH: 100,
         oxygenCFH: 110,
         btuPerHour: 220000
       },
       {
         name: "MFA 12*",
-        fuelType: "Acetylene",
+        fuels: ["Acetylene"],
         fuelGasCFH: 150,
         oxygenCFH: 165,
         btuPerHour: 330000,
@@ -996,7 +1053,7 @@
       },
       {
         name: "MFA 15*",
-        fuelType: "Acetylene High Capacity",
+        fuels: ["Acetylene"],
         fuelGasCFH: 220,
         oxygenCFH: 244,
         btuPerHour: 480000,
@@ -1014,13 +1071,16 @@
       "thermalEfficiency"
     ];
 
-    const storageKey = "preheat-calculator-v5-inputs";
+    const storageKey = "preheat-calculator-v6-fuel-inputs";
 
     const categorySelect =
       document.getElementById("materialCategory");
 
     const gradeSelect =
       document.getElementById("materialGrade");
+
+    const fuelSelect =
+      document.getElementById("fuelType");
 
     const customFields =
       document.getElementById("customMaterialFields");
@@ -1152,10 +1212,12 @@
 
       document.getElementById("results").classList.add("hidden");
 
-      document.getElementById("nozzleList").innerHTML =
-        '<div class="empty-message">' +
-        'Complete all required inputs to calculate nozzle heating times.' +
-        '</div>';
+      document.getElementById("nozzleList").innerHTML = `
+        <div class="empty-message">
+          Complete all required inputs to calculate compatible nozzle
+          heating times.
+        </div>
+      `;
     }
 
     function calculate(save = true) {
@@ -1166,6 +1228,7 @@
       const ambientTemperature = getNumber("ambientTemperature");
       const targetTemperature = getNumber("targetTemperature");
       const thermalEfficiency = getNumber("thermalEfficiency");
+      const selectedFuel = fuelSelect.value;
       const material = getSelectedMaterial();
 
       updateMaterialDisplay(material);
@@ -1190,6 +1253,13 @@
         showIncompleteState(
           "Enter valid custom material properties.",
           true
+        );
+        return;
+      }
+
+      if (!selectedFuel) {
+        showIncompleteState(
+          "Select a fuel gas to calculate compatible nozzle heating times."
         );
         return;
       }
@@ -1262,11 +1332,6 @@
         return;
       }
 
-      const errorBox = document.getElementById("errorBox");
-      errorBox.className = "hidden";
-
-      document.getElementById("results").classList.remove("hidden");
-
       const faceWidth =
         (flangeOD - flangeID) / 2;
 
@@ -1288,6 +1353,11 @@
 
       const grossBTU =
         netBTU / thermalEfficiency;
+
+      const errorBox = document.getElementById("errorBox");
+      errorBox.className = "hidden";
+
+      document.getElementById("results").classList.remove("hidden");
 
       document.getElementById("flangeID").textContent =
         `${formatNumber(flangeID)} in`;
@@ -1313,37 +1383,82 @@
       document.getElementById("grossBTU").textContent =
         `${formatNumber(grossBTU)} BTU`;
 
-      renderNozzles(grossBTU);
+      renderNozzles(grossBTU, selectedFuel);
     }
 
-    function renderNozzles(grossBTU) {
-      const sortedNozzles = [...nozzles].sort((a, b) => {
-        const priorityDifference =
-          (b.priority || 0) - (a.priority || 0);
+    function renderNozzles(grossBTU, selectedFuel) {
+      const nozzleList =
+        document.getElementById("nozzleList");
 
-        if (priorityDifference !== 0) {
-          return priorityDifference;
-        }
+      const compatibleNozzles =
+        nozzles.filter(nozzle =>
+          nozzle.fuels.includes(selectedFuel)
+        );
 
-        return a.btuPerHour - b.btuPerHour;
-      });
+      if (compatibleNozzles.length === 0) {
+        nozzleList.innerHTML = `
+          <div class="empty-message">
+            <strong>
+              No verified ${selectedFuel} nozzle data is available.
+            </strong>
 
-      document.getElementById("nozzleList").innerHTML =
+            <br><br>
+
+            The original spreadsheet does not include rated fuel flow,
+            oxygen flow, or BTU/hr values for ${selectedFuel}. Consult the
+            current Victor equipment documentation before selecting or
+            operating a nozzle.
+          </div>
+        `;
+
+        return;
+      }
+
+      const sortedNozzles =
+        [...compatibleNozzles].sort((a, b) => {
+          const priorityDifference =
+            (b.priority || 0) - (a.priority || 0);
+
+          if (priorityDifference !== 0) {
+            return priorityDifference;
+          }
+
+          return a.btuPerHour - b.btuPerHour;
+        });
+
+      nozzleList.innerHTML =
         sortedNozzles.map(nozzle => {
+          /*
+            Gross energy is already adjusted for thermal efficiency.
+
+            Heating time in minutes:
+            (gross BTU / rated nozzle BTU per hour) × 60
+          */
           const minutes =
             (grossBTU / nozzle.btuPerHour) * 60;
+
+          const oxygenFuelRatio =
+            nozzle.oxygenCFH / nozzle.fuelGasCFH;
 
           let cardClass = "";
           let badge = "";
 
           if (nozzle.badge === "Recommended") {
             cardClass = "recommended";
-            badge =
-              '<span class="badge recommended">Recommended</span>';
+
+            badge = `
+              <span class="badge recommended">
+                Recommended
+              </span>
+            `;
           } else if (nozzle.badge === "Suggested") {
             cardClass = "suggested";
-            badge =
-              '<span class="badge suggested">Suggested</span>';
+
+            badge = `
+              <span class="badge suggested">
+                Suggested
+              </span>
+            `;
           }
 
           const note = nozzle.note
@@ -1355,14 +1470,16 @@
               <div class="nozzle-heading">
                 <div>
                   <h3 class="nozzle-name">${nozzle.name}</h3>
-                  <p class="fuel-type">${nozzle.fuelType}</p>
+                  <p class="fuel-type">${selectedFuel}</p>
                 </div>
+
                 ${badge}
               </div>
 
               <div class="nozzle-data">
                 <div>
                   <span class="data-label">Fuel gas</span>
+
                   <span class="data-value">
                     ${formatWholeNumber(nozzle.fuelGasCFH)} CFH
                   </span>
@@ -1370,13 +1487,15 @@
 
                 <div>
                   <span class="data-label">Oxygen</span>
+
                   <span class="data-value">
                     ${formatWholeNumber(nozzle.oxygenCFH)} CFH
                   </span>
                 </div>
 
                 <div>
-                  <span class="data-label">Output</span>
+                  <span class="data-label">Rated output</span>
+
                   <span class="data-value">
                     ${formatWholeNumber(nozzle.btuPerHour)} BTU/hr
                   </span>
@@ -1385,10 +1504,16 @@
 
               <div class="time-row">
                 <span>Estimated preheat time</span>
+
                 <span class="time-value">
                   ${formatNumber(minutes)} min
                 </span>
               </div>
+
+              <p class="note">
+                Source O₂-to-fuel flow ratio:
+                ${formatNumber(oxygenFuelRatio, 2)}:1
+              </p>
 
               ${note}
             </article>
@@ -1398,6 +1523,7 @@
 
     function saveInputs() {
       const values = {
+        fuelType: fuelSelect.value,
         materialCategory: categorySelect.value,
         materialGrade: gradeSelect.value,
         customDensity:
@@ -1423,6 +1549,7 @@
         );
 
         if (!values) {
+          fuelSelect.value = "";
           categorySelect.value =
             "Carbon and Structural Steel";
 
@@ -1436,6 +1563,9 @@
               values[id];
           }
         });
+
+        fuelSelect.value =
+          values.fuelType || "";
 
         categorySelect.value =
           values.materialCategory || "";
@@ -1452,6 +1582,8 @@
       } catch (error) {
         localStorage.removeItem(storageKey);
 
+        fuelSelect.value = "";
+
         categorySelect.value =
           "Carbon and Structural Steel";
 
@@ -1464,7 +1596,9 @@
         document.getElementById(id).value = "";
       });
 
+      fuelSelect.value = "";
       categorySelect.value = "";
+
       populateGrades();
 
       document.getElementById("customDensity").value = "";
@@ -1489,6 +1623,8 @@
         .getElementById(id)
         .addEventListener("change", calculate);
     });
+
+    fuelSelect.addEventListener("change", calculate);
 
     categorySelect.addEventListener("change", () => {
       populateGrades();
