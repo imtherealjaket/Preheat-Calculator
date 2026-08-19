@@ -1,4 +1,4 @@
-const CACHE_NAME = "preheat-calculator-v5-victor-green";
+const CACHE_NAME = "preheat-calculator-v6-fuel-selection";
 
 const APP_FILES = [
   "./",
