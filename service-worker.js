@@ -1,4 +1,5 @@
-const CACHE_NAME = "preheat-calculator-v6-fuel-selection";
+const CACHE_NAME =
+  "preheat-calculator-v7-percent-blank";
 
 const APP_FILES = [
   "./",
@@ -39,18 +40,27 @@ self.addEventListener("fetch", event => {
   event.respondWith(
     fetch(event.request)
       .then(networkResponse => {
-        const responseCopy = networkResponse.clone();
+        const responseCopy =
+          networkResponse.clone();
 
         caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseCopy);
+          cache.put(
+            event.request,
+            responseCopy
+          );
         });
 
         return networkResponse;
       })
       .catch(() => {
-        return caches.match(event.request).then(cachedResponse => {
-          return cachedResponse || caches.match("./index.html");
-        });
+        return caches
+          .match(event.request)
+          .then(cachedResponse => {
+            return (
+              cachedResponse ||
+              caches.match("./index.html")
+            );
+          });
       })
   );
 });
