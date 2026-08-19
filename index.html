@@ -10,8 +10,14 @@
 
   <meta name="theme-color" content="#00843d">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Preheat">
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Preheat"
+  >
 
   <title>Preheat Calculator</title>
 
@@ -22,19 +28,23 @@
   <style>
     :root {
       color-scheme: light;
+
       --victor-green: #00843d;
       --victor-green-dark: #006b35;
       --victor-green-light: #e7f4ed;
+
       --black: #111111;
       --charcoal: #292929;
       --gray-dark: #5d6065;
       --gray: #c9cbd0;
       --gray-light: #eeeeef;
       --white: #ffffff;
+
       --warning: #6b4d00;
       --warning-background: #fff4c2;
       --danger: #7f1d1d;
       --danger-background: #fee2e2;
+
       --shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
     }
 
@@ -76,11 +86,14 @@
       position: sticky;
       top: 0;
       z-index: 10;
+
       padding:
         calc(12px + env(safe-area-inset-top))
         16px
         12px;
+
       color: var(--white);
+
       background:
         linear-gradient(
           115deg,
@@ -89,6 +102,7 @@
           var(--victor-green) 48%,
           var(--victor-green) 100%
         );
+
       border-bottom: 4px solid var(--victor-green);
       box-shadow: var(--shadow);
     }
@@ -97,6 +111,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       width: min(100%, 900px);
       margin: 0 auto;
       gap: 12px;
@@ -117,10 +132,13 @@
     .reset-button {
       min-height: 42px;
       padding: 8px 14px;
+
       color: var(--white);
       background: var(--victor-green);
+
       border: 1px solid rgba(255, 255, 255, 0.75);
       border-radius: 10px;
+
       font-weight: 700;
       cursor: pointer;
     }
@@ -133,7 +151,11 @@
     main {
       width: min(100%, 900px);
       margin: 0 auto;
-      padding: 16px 14px calc(36px + env(safe-area-inset-bottom));
+
+      padding:
+        16px
+        14px
+        calc(36px + env(safe-area-inset-bottom));
     }
 
     .intro {
@@ -145,17 +167,22 @@
     .card {
       margin-bottom: 16px;
       overflow: hidden;
+
       background: var(--white);
+
       border: 1px solid #d2d3d6;
       border-top: 4px solid var(--black);
       border-radius: 16px;
+
       box-shadow: var(--shadow);
     }
 
     .card-title {
       margin: 0;
       padding: 14px 16px;
+
       color: var(--white);
+
       background:
         linear-gradient(
           90deg,
@@ -163,6 +190,7 @@
           var(--charcoal) 70%,
           var(--victor-green) 100%
         );
+
       font-size: 1rem;
       font-weight: 750;
     }
@@ -177,8 +205,10 @@
       display: grid;
       grid-template-columns: minmax(0, 1fr) 115px 70px;
       align-items: center;
+
       min-height: 54px;
       gap: 8px;
+
       border-bottom: 1px solid #e5e7eb;
     }
 
@@ -198,8 +228,10 @@
       width: 100%;
       min-height: 42px;
       padding: 8px 10px;
+
       color: var(--black);
       background: #f9fafb;
+
       border: 1px solid var(--gray);
       border-radius: 9px;
     }
@@ -234,7 +266,9 @@
     .property-panel {
       margin: 12px 0;
       padding: 4px 12px;
+
       background: #f5f5f6;
+
       border: 1px solid #e5e7eb;
       border-left: 5px solid var(--victor-green);
       border-radius: 10px;
@@ -269,7 +303,9 @@
     .result-row.emphasized {
       margin: 8px 0;
       padding: 0 10px;
+
       color: var(--white);
+
       background:
         linear-gradient(
           100deg,
@@ -277,9 +313,11 @@
           var(--charcoal) 65%,
           var(--victor-green) 100%
         );
+
       border: 0;
       border-left: 5px solid var(--victor-green);
       border-radius: 10px;
+
       font-weight: 750;
     }
 
@@ -311,7 +349,9 @@
 
     .nozzle-card {
       padding: 14px;
+
       background: var(--white);
+
       border: 1px solid #cfd0d3;
       border-left: 5px solid #343434;
       border-radius: 13px;
@@ -319,13 +359,16 @@
 
     .nozzle-card.recommended {
       background: #f2fbf6;
+
       border: 2px solid var(--victor-green);
       border-left: 8px solid var(--victor-green);
+
       box-shadow: 0 4px 14px rgba(0, 132, 61, 0.18);
     }
 
     .nozzle-card.suggested {
       background: #f2f2f3;
+
       border: 2px solid #3a3a3a;
       border-left: 8px solid #3a3a3a;
     }
@@ -351,8 +394,11 @@
     .badge {
       flex-shrink: 0;
       padding: 4px 8px;
+
       color: var(--white);
+
       border-radius: 999px;
+
       font-size: 0.7rem;
       font-weight: 750;
     }
@@ -368,6 +414,7 @@
     .nozzle-data {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+
       gap: 8px;
       margin-top: 13px;
     }
@@ -389,10 +436,13 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       gap: 10px;
       margin-top: 13px;
       padding-top: 11px;
+
       border-top: 1px solid #e5e7eb;
+
       font-size: 0.87rem;
     }
 
@@ -413,10 +463,13 @@
     .notice {
       margin: 12px 0;
       padding: 12px;
+
       color: var(--warning);
       background: var(--warning-background);
+
       border-left: 5px solid var(--victor-green);
       border-radius: 10px;
+
       font-size: 0.82rem;
       line-height: 1.45;
     }
@@ -454,12 +507,17 @@
     <div class="header-content">
       <div>
         <h1 class="header-title">Preheat Calculator</h1>
+
         <p class="header-subtitle">
           Oxy-fuel preheat time and BTU estimator
         </p>
       </div>
 
-      <button id="resetButton" class="reset-button" type="button">
+      <button
+        id="resetButton"
+        class="reset-button"
+        type="button"
+      >
         Reset
       </button>
     </div>
@@ -485,7 +543,7 @@
             inputmode="decimal"
             min="0"
             step="any"
-            value="24"
+            placeholder="Required"
           >
 
           <span class="unit">in</span>
@@ -501,7 +559,7 @@
             inputmode="decimal"
             min="0"
             step="any"
-            value="2"
+            placeholder="Required"
           >
 
           <span class="unit">in</span>
@@ -517,7 +575,7 @@
             inputmode="decimal"
             min="0"
             step="any"
-            value="6"
+            placeholder="Required"
           >
 
           <span class="unit">in</span>
@@ -533,7 +591,7 @@
             inputmode="decimal"
             min="0"
             step="any"
-            value="2.25"
+            placeholder="Required"
           >
 
           <span class="unit">in</span>
@@ -546,22 +604,36 @@
 
       <div class="card-body">
         <div class="selector-row">
-          <label for="materialCategory">Material category</label>
+          <label for="materialCategory">
+            Material category
+          </label>
 
-          <select id="materialCategory" class="select-input">
+          <select
+            id="materialCategory"
+            class="select-input"
+          >
             <option value="">Select a category</option>
           </select>
         </div>
 
         <div class="selector-row">
-          <label for="materialGrade">Specific alloy or grade</label>
+          <label for="materialGrade">
+            Specific alloy or grade
+          </label>
 
-          <select id="materialGrade" class="select-input" disabled>
+          <select
+            id="materialGrade"
+            class="select-input"
+            disabled
+          >
             <option value="">Select a category first</option>
           </select>
         </div>
 
-        <div id="customMaterialFields" class="hidden">
+        <div
+          id="customMaterialFields"
+          class="hidden"
+        >
           <label class="input-row">
             <span class="input-label">Custom density</span>
 
@@ -579,7 +651,9 @@
           </label>
 
           <label class="input-row">
-            <span class="input-label">Custom specific heat</span>
+            <span class="input-label">
+              Custom specific heat
+            </span>
 
             <input
               id="customSpecificHeat"
@@ -595,15 +669,26 @@
           </label>
         </div>
 
-        <div id="materialProperties" class="property-panel hidden">
+        <div
+          id="materialProperties"
+          class="property-panel hidden"
+        >
           <div class="property-row">
             <span>Density</span>
-            <span id="densityDisplay" class="property-value"></span>
+
+            <span
+              id="densityDisplay"
+              class="property-value"
+            ></span>
           </div>
 
           <div class="property-row">
             <span>Specific heat</span>
-            <span id="specificHeatDisplay" class="property-value"></span>
+
+            <span
+              id="specificHeatDisplay"
+              class="property-value"
+            ></span>
           </div>
         </div>
 
@@ -620,9 +705,14 @@
 
       <div class="card-body">
         <div class="selector-row">
-          <label for="fuelType">Fuel gas</label>
+          <label for="fuelType">
+            Fuel gas
+          </label>
 
-          <select id="fuelType" class="select-input">
+          <select
+            id="fuelType"
+            class="select-input"
+          >
             <option value="">Select a fuel gas</option>
             <option value="Acetylene">Acetylene</option>
             <option value="Propane">Propane</option>
@@ -640,11 +730,15 @@
     </section>
 
     <section class="card">
-      <h2 class="card-title">Temperature and Efficiency</h2>
+      <h2 class="card-title">
+        Temperature and Efficiency
+      </h2>
 
       <div class="card-body">
         <label class="input-row">
-          <span class="input-label">Ambient temperature</span>
+          <span class="input-label">
+            Ambient temperature
+          </span>
 
           <input
             id="ambientTemperature"
@@ -652,14 +746,16 @@
             type="number"
             inputmode="decimal"
             step="any"
-            value="70"
+            placeholder="Required"
           >
 
           <span class="unit">°F</span>
         </label>
 
         <label class="input-row">
-          <span class="input-label">Target temperature</span>
+          <span class="input-label">
+            Target temperature
+          </span>
 
           <input
             id="targetTemperature"
@@ -667,31 +763,35 @@
             type="number"
             inputmode="decimal"
             step="any"
-            value="300"
+            placeholder="Required"
           >
 
           <span class="unit">°F</span>
         </label>
 
         <label class="input-row">
-          <span class="input-label">Thermal efficiency</span>
+          <span class="input-label">
+            Thermal efficiency
+          </span>
 
           <input
             id="thermalEfficiency"
             class="number-input"
             type="number"
             inputmode="decimal"
-            min="0.0001"
-            max="1"
+            min="0.01"
+            max="100"
             step="any"
-            value="0.12"
+            placeholder="Enter %"
           >
 
-          <span class="unit">decimal</span>
+          <span class="unit">%</span>
         </label>
 
         <p class="help-text">
-          Enter efficiency as a decimal. For example, enter 0.12 for 12%.
+          Enter efficiency as a percentage. For example, enter 12 for 12%.
+          This represents the portion of the torch's rated heat output that is
+          absorbed by the workpiece.
         </p>
       </div>
     </section>
@@ -700,58 +800,117 @@
       <h2 class="card-title">Calculated Results</h2>
 
       <div class="card-body">
-        <div id="errorBox" class="empty-message">
+        <div
+          id="errorBox"
+          class="empty-message"
+        >
           Complete the required inputs to calculate results.
         </div>
 
-        <div id="results" class="hidden">
+        <div
+          id="results"
+          class="hidden"
+        >
           <div class="result-row">
-            <span class="result-label">Flange inner diameter</span>
-            <span id="flangeID" class="result-value"></span>
+            <span class="result-label">
+              Flange inner diameter
+            </span>
+
+            <span
+              id="flangeID"
+              class="result-value"
+            ></span>
           </div>
 
           <div class="result-row">
-            <span class="result-label">Flange outer diameter</span>
-            <span id="flangeOD" class="result-value"></span>
+            <span class="result-label">
+              Flange outer diameter
+            </span>
+
+            <span
+              id="flangeOD"
+              class="result-value"
+            ></span>
           </div>
 
           <div class="result-row">
-            <span class="result-label">Radial face width</span>
-            <span id="faceWidth" class="result-value"></span>
+            <span class="result-label">
+              Radial face width
+            </span>
+
+            <span
+              id="faceWidth"
+              class="result-value"
+            ></span>
           </div>
 
           <div class="result-row">
-            <span class="result-label">Flange volume</span>
-            <span id="volume" class="result-value"></span>
+            <span class="result-label">
+              Flange volume
+            </span>
+
+            <span
+              id="volume"
+              class="result-value"
+            ></span>
           </div>
 
           <div class="result-row">
-            <span class="result-label">Flange weight</span>
-            <span id="weight" class="result-value"></span>
+            <span class="result-label">
+              Flange weight
+            </span>
+
+            <span
+              id="weight"
+              class="result-value"
+            ></span>
           </div>
 
           <div class="result-row">
-            <span class="result-label">Temperature rise</span>
-            <span id="temperatureRise" class="result-value"></span>
+            <span class="result-label">
+              Temperature rise
+            </span>
+
+            <span
+              id="temperatureRise"
+              class="result-value"
+            ></span>
           </div>
 
           <div class="result-row">
-            <span class="result-label">Net heat required</span>
-            <span id="netBTU" class="result-value"></span>
+            <span class="result-label">
+              Net heat required
+            </span>
+
+            <span
+              id="netBTU"
+              class="result-value"
+            ></span>
           </div>
 
           <div class="result-row emphasized">
-            <span class="result-label">Gross torch input</span>
-            <span id="grossBTU" class="result-value"></span>
+            <span class="result-label">
+              Gross torch input
+            </span>
+
+            <span
+              id="grossBTU"
+              class="result-value"
+            ></span>
           </div>
         </div>
       </div>
     </section>
 
     <section class="card">
-      <h2 class="card-title">Compatible Nozzle Comparison</h2>
+      <h2 class="card-title">
+        Compatible Nozzle Comparison
+      </h2>
 
-      <div id="nozzleList" class="nozzle-list">
+      <div
+        id="nozzleList"
+        class="nozzle-list"
+      >
         <div class="empty-message">
           Select a fuel and complete all required inputs.
         </div>
@@ -949,8 +1108,10 @@
     };
 
     /*
-      These are source-rated nozzle values from the original spreadsheet.
-      Heating time uses the rated BTU/hr of each compatible nozzle.
+      These values come from the original spreadsheet.
+
+      The app does not apply a generic fuel multiplier.
+      Each heating time uses the nozzle's listed BTU/hr rating.
     */
     const nozzles = [
       {
@@ -1071,7 +1232,12 @@
       "thermalEfficiency"
     ];
 
-    const storageKey = "preheat-calculator-v6-fuel-inputs";
+    /*
+      This new storage key prevents values saved by an older version from
+      automatically filling the new percent-based calculator.
+    */
+    const storageKey =
+      "preheat-calculator-v7-percent-inputs";
 
     const categorySelect =
       document.getElementById("materialCategory");
@@ -1089,10 +1255,18 @@
       document.getElementById("materialProperties");
 
     function getNumber(id) {
-      const value =
-        Number.parseFloat(document.getElementById(id).value);
+      const element = document.getElementById(id);
+      const rawValue = element.value.trim();
 
-      return Number.isFinite(value) ? value : NaN;
+      if (rawValue === "") {
+        return NaN;
+      }
+
+      const value = Number.parseFloat(rawValue);
+
+      return Number.isFinite(value)
+        ? value
+        : NaN;
     }
 
     function formatNumber(value, decimals = 2) {
@@ -1110,38 +1284,50 @@
 
     function initializeMaterialCategories() {
       Object.keys(materialDatabase).forEach(category => {
-        const option = document.createElement("option");
+        const option =
+          document.createElement("option");
+
         option.value = category;
         option.textContent = category;
+
         categorySelect.appendChild(option);
       });
     }
 
     function populateGrades(selectedGrade = "") {
-      const category = categorySelect.value;
+      const category =
+        categorySelect.value;
 
       gradeSelect.innerHTML = "";
 
       if (!category || !materialDatabase[category]) {
         gradeSelect.disabled = true;
+
         gradeSelect.innerHTML =
           '<option value="">Select a category first</option>';
 
         customFields.classList.add("hidden");
         materialProperties.classList.add("hidden");
+
         return;
       }
 
       gradeSelect.disabled = false;
+
       gradeSelect.innerHTML =
         '<option value="">Select an alloy or grade</option>';
 
-      materialDatabase[category].forEach((material, index) => {
-        const option = document.createElement("option");
-        option.value = String(index);
-        option.textContent = material[0];
-        gradeSelect.appendChild(option);
-      });
+      materialDatabase[category].forEach(
+        (material, index) => {
+          const option =
+            document.createElement("option");
+
+          option.value = String(index);
+          option.textContent = material[0];
+
+          gradeSelect.appendChild(option);
+        }
+      );
 
       if (selectedGrade !== "") {
         gradeSelect.value = selectedGrade;
@@ -1154,8 +1340,11 @@
     }
 
     function getSelectedMaterial() {
-      const category = categorySelect.value;
-      const gradeIndex = gradeSelect.value;
+      const category =
+        categorySelect.value;
+
+      const gradeIndex =
+        gradeSelect.value;
 
       if (!category || gradeIndex === "") {
         return null;
@@ -1193,26 +1382,40 @@
         return;
       }
 
-      document.getElementById("densityDisplay").textContent =
+      document.getElementById(
+        "densityDisplay"
+      ).textContent =
         `${formatNumber(material.density, 4)} lb/in³`;
 
-      document.getElementById("specificHeatDisplay").textContent =
+      document.getElementById(
+        "specificHeatDisplay"
+      ).textContent =
         `${formatNumber(material.specificHeat, 3)} BTU/lb·°F`;
 
       materialProperties.classList.remove("hidden");
     }
 
-    function showIncompleteState(message, isError = false) {
-      const errorBox = document.getElementById("errorBox");
+    function showIncompleteState(
+      message,
+      isError = false
+    ) {
+      const errorBox =
+        document.getElementById("errorBox");
 
       errorBox.textContent = message;
+
       errorBox.className = isError
         ? "error-box"
         : "empty-message";
 
-      document.getElementById("results").classList.add("hidden");
+      document
+        .getElementById("results")
+        .classList
+        .add("hidden");
 
-      document.getElementById("nozzleList").innerHTML = `
+      document.getElementById(
+        "nozzleList"
+      ).innerHTML = `
         <div class="empty-message">
           Complete all required inputs to calculate compatible nozzle
           heating times.
@@ -1221,15 +1424,36 @@
     }
 
     function calculate(save = true) {
-      const pipeDiameter = getNumber("pipeDiameter");
-      const insideOverhang = getNumber("insideOverhang");
-      const outsideExtension = getNumber("outsideExtension");
-      const thickness = getNumber("thickness");
-      const ambientTemperature = getNumber("ambientTemperature");
-      const targetTemperature = getNumber("targetTemperature");
-      const thermalEfficiency = getNumber("thermalEfficiency");
-      const selectedFuel = fuelSelect.value;
-      const material = getSelectedMaterial();
+      const pipeDiameter =
+        getNumber("pipeDiameter");
+
+      const insideOverhang =
+        getNumber("insideOverhang");
+
+      const outsideExtension =
+        getNumber("outsideExtension");
+
+      const thickness =
+        getNumber("thickness");
+
+      const ambientTemperature =
+        getNumber("ambientTemperature");
+
+      const targetTemperature =
+        getNumber("targetTemperature");
+
+      /*
+        The user enters a percentage, such as 12.
+        It is converted to 0.12 after validation.
+      */
+      const thermalEfficiencyPercent =
+        getNumber("thermalEfficiency");
+
+      const selectedFuel =
+        fuelSelect.value;
+
+      const material =
+        getSelectedMaterial();
 
       updateMaterialDisplay(material);
 
@@ -1241,6 +1465,7 @@
         showIncompleteState(
           "Select a material category and a specific alloy or grade."
         );
+
         return;
       }
 
@@ -1254,6 +1479,7 @@
           "Enter valid custom material properties.",
           true
         );
+
         return;
       }
 
@@ -1261,6 +1487,7 @@
         showIncompleteState(
           "Select a fuel gas to calculate compatible nozzle heating times."
         );
+
         return;
       }
 
@@ -1271,13 +1498,18 @@
         thickness,
         ambientTemperature,
         targetTemperature,
-        thermalEfficiency
+        thermalEfficiencyPercent
       ];
 
-      if (requiredValues.some(value => !Number.isFinite(value))) {
+      if (
+        requiredValues.some(
+          value => !Number.isFinite(value)
+        )
+      ) {
         showIncompleteState(
           "Complete all user input fields with valid numbers."
         );
+
         return;
       }
 
@@ -1291,22 +1523,37 @@
           "Dimensions must be valid and greater than zero where required.",
           true
         );
+
         return;
       }
 
-      if (thermalEfficiency <= 0 || thermalEfficiency > 1) {
+      if (
+        thermalEfficiencyPercent <= 0 ||
+        thermalEfficiencyPercent > 100
+      ) {
         showIncompleteState(
-          "Thermal efficiency must be greater than 0 and no more than 1.",
+          "Thermal efficiency must be greater than 0% and no more than 100%.",
           true
         );
+
         return;
       }
+
+      /*
+        Convert the user's percentage to the decimal required by the formula.
+
+        Example:
+        12% / 100 = 0.12
+      */
+      const thermalEfficiency =
+        thermalEfficiencyPercent / 100;
 
       if (targetTemperature < ambientTemperature) {
         showIncompleteState(
           "Target temperature cannot be lower than ambient temperature.",
           true
         );
+
         return;
       }
 
@@ -1321,6 +1568,7 @@
           "Inside overhang produces an invalid flange inner diameter.",
           true
         );
+
         return;
       }
 
@@ -1329,6 +1577,7 @@
           "Flange outer diameter must be greater than inner diameter.",
           true
         );
+
         return;
       }
 
@@ -1354,45 +1603,73 @@
       const grossBTU =
         netBTU / thermalEfficiency;
 
-      const errorBox = document.getElementById("errorBox");
+      const errorBox =
+        document.getElementById("errorBox");
+
       errorBox.className = "hidden";
 
-      document.getElementById("results").classList.remove("hidden");
+      document
+        .getElementById("results")
+        .classList
+        .remove("hidden");
 
-      document.getElementById("flangeID").textContent =
+      document.getElementById(
+        "flangeID"
+      ).textContent =
         `${formatNumber(flangeID)} in`;
 
-      document.getElementById("flangeOD").textContent =
+      document.getElementById(
+        "flangeOD"
+      ).textContent =
         `${formatNumber(flangeOD)} in`;
 
-      document.getElementById("faceWidth").textContent =
+      document.getElementById(
+        "faceWidth"
+      ).textContent =
         `${formatNumber(faceWidth)} in`;
 
-      document.getElementById("volume").textContent =
+      document.getElementById(
+        "volume"
+      ).textContent =
         `${formatNumber(volume)} in³`;
 
-      document.getElementById("weight").textContent =
+      document.getElementById(
+        "weight"
+      ).textContent =
         `${formatNumber(weight)} lb`;
 
-      document.getElementById("temperatureRise").textContent =
+      document.getElementById(
+        "temperatureRise"
+      ).textContent =
         `${formatNumber(temperatureRise, 0)} °F`;
 
-      document.getElementById("netBTU").textContent =
+      document.getElementById(
+        "netBTU"
+      ).textContent =
         `${formatNumber(netBTU)} BTU`;
 
-      document.getElementById("grossBTU").textContent =
+      document.getElementById(
+        "grossBTU"
+      ).textContent =
         `${formatNumber(grossBTU)} BTU`;
 
-      renderNozzles(grossBTU, selectedFuel);
+      renderNozzles(
+        grossBTU,
+        selectedFuel
+      );
     }
 
-    function renderNozzles(grossBTU, selectedFuel) {
+    function renderNozzles(
+      grossBTU,
+      selectedFuel
+    ) {
       const nozzleList =
         document.getElementById("nozzleList");
 
       const compatibleNozzles =
-        nozzles.filter(nozzle =>
-          nozzle.fuels.includes(selectedFuel)
+        nozzles.filter(
+          nozzle =>
+            nozzle.fuels.includes(selectedFuel)
         );
 
       if (compatibleNozzles.length === 0) {
@@ -1415,30 +1692,36 @@
       }
 
       const sortedNozzles =
-        [...compatibleNozzles].sort((a, b) => {
-          const priorityDifference =
-            (b.priority || 0) - (a.priority || 0);
+        [...compatibleNozzles].sort(
+          (a, b) => {
+            const priorityDifference =
+              (b.priority || 0) -
+              (a.priority || 0);
 
-          if (priorityDifference !== 0) {
-            return priorityDifference;
+            if (priorityDifference !== 0) {
+              return priorityDifference;
+            }
+
+            return (
+              a.btuPerHour -
+              b.btuPerHour
+            );
           }
-
-          return a.btuPerHour - b.btuPerHour;
-        });
+        );
 
       nozzleList.innerHTML =
         sortedNozzles.map(nozzle => {
           /*
-            Gross energy is already adjusted for thermal efficiency.
-
             Heating time in minutes:
-            (gross BTU / rated nozzle BTU per hour) × 60
+
+            Gross BTU / rated nozzle BTU per hour x 60
           */
           const minutes =
             (grossBTU / nozzle.btuPerHour) * 60;
 
           const oxygenFuelRatio =
-            nozzle.oxygenCFH / nozzle.fuelGasCFH;
+            nozzle.oxygenCFH /
+            nozzle.fuelGasCFH;
 
           let cardClass = "";
           let badge = "";
@@ -1469,8 +1752,13 @@
             <article class="nozzle-card ${cardClass}">
               <div class="nozzle-heading">
                 <div>
-                  <h3 class="nozzle-name">${nozzle.name}</h3>
-                  <p class="fuel-type">${selectedFuel}</p>
+                  <h3 class="nozzle-name">
+                    ${nozzle.name}
+                  </h3>
+
+                  <p class="fuel-type">
+                    ${selectedFuel}
+                  </p>
                 </div>
 
                 ${badge}
@@ -1478,7 +1766,9 @@
 
               <div class="nozzle-data">
                 <div>
-                  <span class="data-label">Fuel gas</span>
+                  <span class="data-label">
+                    Fuel gas
+                  </span>
 
                   <span class="data-value">
                     ${formatWholeNumber(nozzle.fuelGasCFH)} CFH
@@ -1486,7 +1776,9 @@
                 </div>
 
                 <div>
-                  <span class="data-label">Oxygen</span>
+                  <span class="data-label">
+                    Oxygen
+                  </span>
 
                   <span class="data-value">
                     ${formatWholeNumber(nozzle.oxygenCFH)} CFH
@@ -1494,7 +1786,9 @@
                 </div>
 
                 <div>
-                  <span class="data-label">Rated output</span>
+                  <span class="data-label">
+                    Rated output
+                  </span>
 
                   <span class="data-value">
                     ${formatWholeNumber(nozzle.btuPerHour)} BTU/hr
@@ -1503,7 +1797,9 @@
               </div>
 
               <div class="time-row">
-                <span>Estimated preheat time</span>
+                <span>
+                  Estimated preheat time
+                </span>
 
                 <span class="time-value">
                   ${formatNumber(minutes)} min
@@ -1523,17 +1819,29 @@
 
     function saveInputs() {
       const values = {
-        fuelType: fuelSelect.value,
-        materialCategory: categorySelect.value,
-        materialGrade: gradeSelect.value,
+        fuelType:
+          fuelSelect.value,
+
+        materialCategory:
+          categorySelect.value,
+
+        materialGrade:
+          gradeSelect.value,
+
         customDensity:
-          document.getElementById("customDensity").value,
+          document
+            .getElementById("customDensity")
+            .value,
+
         customSpecificHeat:
-          document.getElementById("customSpecificHeat").value
+          document
+            .getElementById("customSpecificHeat")
+            .value
       };
 
       inputIds.forEach(id => {
-        values[id] = document.getElementById(id).value;
+        values[id] =
+          document.getElementById(id).value;
       });
 
       localStorage.setItem(
@@ -1544,16 +1852,20 @@
 
     function loadInputs() {
       try {
-        const values = JSON.parse(
-          localStorage.getItem(storageKey)
-        );
+        const values =
+          JSON.parse(
+            localStorage.getItem(storageKey)
+          );
 
+        /*
+          With no saved record, all fields and selections remain blank.
+        */
         if (!values) {
           fuelSelect.value = "";
-          categorySelect.value =
-            "Carbon and Structural Steel";
+          categorySelect.value = "";
 
-          populateGrades("0");
+          populateGrades();
+
           return;
         }
 
@@ -1574,20 +1886,22 @@
           values.materialGrade || ""
         );
 
-        document.getElementById("customDensity").value =
+        document.getElementById(
+          "customDensity"
+        ).value =
           values.customDensity || "";
 
-        document.getElementById("customSpecificHeat").value =
+        document.getElementById(
+          "customSpecificHeat"
+        ).value =
           values.customSpecificHeat || "";
       } catch (error) {
         localStorage.removeItem(storageKey);
 
         fuelSelect.value = "";
+        categorySelect.value = "";
 
-        categorySelect.value =
-          "Carbon and Structural Steel";
-
-        populateGrades("0");
+        populateGrades();
       }
     }
 
@@ -1601,8 +1915,13 @@
 
       populateGrades();
 
-      document.getElementById("customDensity").value = "";
-      document.getElementById("customSpecificHeat").value = "";
+      document.getElementById(
+        "customDensity"
+      ).value = "";
+
+      document.getElementById(
+        "customSpecificHeat"
+      ).value = "";
 
       materialProperties.classList.add("hidden");
 
@@ -1617,45 +1936,72 @@
     inputIds.forEach(id => {
       document
         .getElementById(id)
-        .addEventListener("input", calculate);
+        .addEventListener(
+          "input",
+          calculate
+        );
 
       document
         .getElementById(id)
-        .addEventListener("change", calculate);
+        .addEventListener(
+          "change",
+          calculate
+        );
     });
 
-    fuelSelect.addEventListener("change", calculate);
+    fuelSelect.addEventListener(
+      "change",
+      calculate
+    );
 
-    categorySelect.addEventListener("change", () => {
-      populateGrades();
-      calculate();
-    });
+    categorySelect.addEventListener(
+      "change",
+      () => {
+        populateGrades();
+        calculate();
+      }
+    );
 
-    gradeSelect.addEventListener("change", calculate);
+    gradeSelect.addEventListener(
+      "change",
+      calculate
+    );
 
     document
       .getElementById("customDensity")
-      .addEventListener("input", calculate);
+      .addEventListener(
+        "input",
+        calculate
+      );
 
     document
       .getElementById("customSpecificHeat")
-      .addEventListener("input", calculate);
+      .addEventListener(
+        "input",
+        calculate
+      );
 
     document
       .getElementById("resetButton")
-      .addEventListener("click", resetInputs);
+      .addEventListener(
+        "click",
+        resetInputs
+      );
 
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker
-          .register("./service-worker.js")
-          .catch(error => {
-            console.error(
-              "Service worker registration failed:",
-              error
-            );
-          });
-      });
+      window.addEventListener(
+        "load",
+        () => {
+          navigator.serviceWorker
+            .register("./service-worker.js")
+            .catch(error => {
+              console.error(
+                "Service worker registration failed:",
+                error
+              );
+            });
+        }
+      );
     }
 
     calculate();
